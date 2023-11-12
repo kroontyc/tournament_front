@@ -1,0 +1,14 @@
+.bg-style {
+  width: 100%;
+  background-repeat: no-repeat;
+  background-image: url('https://d3j35g8nwvl1x4.cloudfront.net/assets/lander-test-e4db1908e08442141415c9096dc4967f9fa0486644856799c80604e556341872.jpg');
+}
+
+.title {
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.sub-title {
+  font-size: 22px;
+}
