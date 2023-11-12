@@ -18,7 +18,7 @@ const Button = (props) => {
         whiteSpace: "nowrap"
       }}
       onClick={() => {
-        click();
+        click ? click() : console.log("");
       }}
       className="p-[15px] btn flex items-center gap-2"
     >
