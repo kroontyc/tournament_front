@@ -2,11 +2,13 @@ import React, { useState } from "react";
 
 import { getUserTournament } from "../../Service/Tournament";
 import Events from "./Components/Events";
+import { useNavigate } from "react-router-dom";
 
-const options = [ "Eventos", "Categorias", "Ajustes", "Contatos" ];
+const options = [ "Eventos", "Ajustes", "Contatos" ];
 const Profile = () => {
   const [ data, setData ] = useState([]);
   const [ tab, setTab ] = useState("Eventos");
+  const navigate = useNavigate();
   const getUserTorunaments = async () => {
     try {
       let req = await getUserTournament(1);
