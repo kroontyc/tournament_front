@@ -2,7 +2,14 @@ import React from "react";
 import "./style.css";
 import Button from "../../Components/Buttons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate("/tournament");
+  };
   return (
     <div className="bg-style h-[100%] flex flex-col">
       <div className="text-size w-[90%] flex items-end justify-end">
@@ -23,6 +30,7 @@ const Home = () => {
               background={"#5bb65b"}
               color={"#fff"}
               icon={faPlus}
+              click={handleButtonClick}
             />
           </div>
         </div>
