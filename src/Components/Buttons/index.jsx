@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./style.css";
 const Button = (props) => {
-  const { width, color, text, background, icon, click } = props;
+  const { width, color, text, background, icon, click, value } = props;
   return (
     <button
       style={{
@@ -17,8 +17,9 @@ const Button = (props) => {
         fontWeight: "600",
         whiteSpace: "nowrap"
       }}
-      onClick={() => {
-        click ? click() : console.log("");
+      value={value}
+      onClick={(event) => {
+        click ? click(event.target.value) : console.log("");
       }}
       className="p-[15px] btn flex items-center gap-2"
     >

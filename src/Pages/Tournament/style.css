@@ -1,5 +1,6 @@
 .card:hover {
   cursor: pointer;
-  color: #fff;
-  background: #a78aff;
+  color: #000;
+  font-weight: 600;
+  background: #f6f6f6;
 }

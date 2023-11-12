@@ -1,12 +1,14 @@
 import apiClient from "./Cliente";
 import Swal from "sweetalert2";
 
-const createTournament = async (name, reward, date) => {
+const createTournament = async (name, reward, date, location, federation) => {
   const data = {
     owner_id: 1,
     name: name,
     data: date,
-    reward: reward
+    reward: reward,
+    location: location,
+    federation: federation
   };
   try {
     const response = await apiClient.post("/tournament", data);
@@ -57,4 +59,17 @@ const getUserTournament = async () => {
   }
 };
 
-export { createTournament, getAllTorunaments, getUserTournament };
+const byId = async (id) => {
+  try {
+    const response = await apiClient.get("/tournament/" + id);
+
+    return response.data;
+  } catch (error) {
+    // Handle error appropriately
+    console.error("Error creating tournament:", error);
+
+    throw error;
+  }
+};
+
+export { createTournament, getAllTorunaments, getUserTournament, byId };

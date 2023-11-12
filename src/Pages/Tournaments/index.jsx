@@ -3,12 +3,18 @@ import Button from "../../Components/Buttons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import "../Tournament/style.css";
 import { getAllTorunaments } from "../../Service/Tournament";
+import { useNavigate } from "react-router-dom";
 const Tournaments = () => {
+  const navigate = useNavigate();
   const [ data, setData ] = useState([]);
+
+  const handleButtonClick = (id) => {
+    navigate("/tournament/" + id);
+  };
   const geTournaments = async () => {
     try {
       let req = await getAllTorunaments();
-      console.log("sob", req);
+      //  console.log("sob", req);
       setData(req.data);
     } catch (e) {
       console.log("e", e);
@@ -34,10 +40,12 @@ const Tournaments = () => {
                 </div>
                 <div className="w-100 mt-2 flex items-end justify-end">
                   <Button
+                    value={value.id}
                     text={"Ver evento"}
                     background={"#006ccc"}
                     color={"#fff"}
                     icon={faEye}
+                    click={handleButtonClick}
                   />
                 </div>
               </div>
