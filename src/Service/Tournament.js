@@ -31,4 +31,30 @@ const createTournament = async (name, reward, date) => {
   }
 };
 
-export { createTournament };
+const getAllTorunaments = async () => {
+  try {
+    const response = await apiClient.get("/tournament");
+
+    return response.data;
+  } catch (error) {
+    // Handle error appropriately
+    console.error("Error creating tournament:", error);
+
+    throw error;
+  }
+};
+
+const getUserTournament = async () => {
+  try {
+    const response = await apiClient.get("/tournament/owner/1");
+
+    return response.data;
+  } catch (error) {
+    // Handle error appropriately
+    console.error("Error creating tournament:", error);
+
+    throw error;
+  }
+};
+
+export { createTournament, getAllTorunaments, getUserTournament };
