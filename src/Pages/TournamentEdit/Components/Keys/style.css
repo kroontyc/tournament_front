@@ -1,0 +1,8 @@
+.lower-title {
+  font-size: 10px;
+}
+
+.hover-card:hover {
+  background: rgba(131, 205, 255, 0.95);
+  font-weight: 600;
+}

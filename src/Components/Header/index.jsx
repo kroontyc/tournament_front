@@ -8,7 +8,7 @@ const Header = () => {
         <a href="/" className="navbar-brand">
           <img src={Logo} alt="Ki Happ" className="logo" />
         </a>
-        <ul className="navbar-nav">
+        <ul className="navbar-nav ul">
           <li className="nav-item">
             <a href="/tournaments" className="nav-link">
               Tournaments

@@ -1,38 +1,46 @@
-.App {
-  text-align: center;
+.overlay {
+  background: #000000;
+
+  width: 200vw !important;
+  left: -22%;
+  height: 201vh !important;
+  top: -22%;
+  opacity: 0.7;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.glass-effect {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.2
+  ); /* Cor de fundo branca com transparência */
+  border-radius: 10px;
+  /* Bordas arredondadas para um visual mais suave */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* Borda sutil para realçar o efeito */
+  backdrop-filter: blur(10px); /* Aplica o efeito de desfoque */
+  -webkit-backdrop-filter: blur(
+    10px
+  ); /* Para suporte em navegadores webkit como Safari */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil para adicionar profundidade */
+  padding: 20px; /* Espaçamento interno */
+  color: #000; /* Cor do texto */
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.overflow-x-style {
+  max-width: 630px;
+  overflow-x: scroll;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.borders {
+  border-top: solid 1px #9e9e9e;
+  border-bottom: solid 1px #9e9e9e;
+  border-right: solid 1px #9e9e9e;
+  display: block;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
