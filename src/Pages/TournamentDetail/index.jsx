@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import { byId } from "../../Service/Tournament";
 import Detail from "./Components/Detail";
+import Participants from "./Components/Participants";
+import Contact from "./Components/Contact";
 const options = [ "Detalhe", "Participantes", "Contatos" ];
 const TournamentDetail = () => {
   const [ data, setData ] = useState([]);
@@ -10,7 +12,7 @@ const TournamentDetail = () => {
     try {
       let req = await byId(id);
       setData({ data: req.data[0], user: req.user[0] });
-      console.log("dele", data);
+      //  console.log("dele", data);
     } catch (e) {
       console.log("e", e);
     }
@@ -48,6 +50,10 @@ const TournamentDetail = () => {
             ))}
           </ul>
           <div>{tab === "Detalhe" && <Detail data={data.data} />}</div>
+          <div>
+            {tab === "Participantes" && <Participants data={data.data} />}
+          </div>
+          <div>{tab === "Contatos" && <Contact data={data.user} />}</div>
         </div>
       )}
     </div>

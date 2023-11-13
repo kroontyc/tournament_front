@@ -1,0 +1,6 @@
+.tournament-card:hover {
+  cursor: pointer;
+  background: #0f1329;
+  color: #fff;
+  font-weight: 600;
+}

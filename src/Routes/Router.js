@@ -6,6 +6,7 @@ import Tournament from "../Pages/Tournament";
 import Tournaments from "../Pages/Tournaments";
 import Profile from "../Pages/Profile";
 import TournamentDetail from "../Pages/TournamentDetail";
+import EditTournament from "../Pages/TournamentEdit";
 
 function Router() {
   return (
@@ -18,6 +19,7 @@ function Router() {
           <Route path="/tournaments" element={<Tournaments />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/tournament/:id" element={<TournamentDetail />} />
+          <Route path="/tournament/edit/:id" element={<EditTournament />} />
         </Routes>
       </div>
     </div>
