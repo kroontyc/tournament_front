@@ -7,6 +7,10 @@
   top: -22%;
   opacity: 0.7;
 }
+.upper {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
 
 .glass-effect {
   background: rgba(
@@ -43,4 +47,17 @@
   display: block;
   margin-bottom: 10px;
   margin-top: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #eeeeee;
+}
+/* This styles the scrollbar thumb (the part that is draggable) */
+::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  /* It's often useful to make the thumb a different color */
+}
+/* This changes the scrollbar width (and height on horizontal scrollbars) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }

@@ -13,7 +13,6 @@ const Keys = () => {
     const id = window.location.pathname.split("/")[3];
     let req = await byId(id);
     setData(req);
-    console.log("asa", req);
   };
   const generateKeysById = async () => {
     const id = window.location.pathname.split("/")[3];
@@ -59,15 +58,18 @@ const Keys = () => {
       </div>
       <div className="mt-10 flex flex-col gap-10">
         {data.data &&
-          data.data.map((value) => (
-            <div className="flex w-[380px]" key={value.id}>
-              <div className="flex flex-col w-full">
-                <Fighter data={value} />
-                <SecondFighter data={value} />
-              </div>
-              <div className="borders w-10" />
-            </div>
-          ))}
+          data.data.map(
+            (value) =>
+              value.first_fighter_name !== "VAZIO" && (
+                <div className="flex w-[380px]" key={value.id}>
+                  <div className="flex flex-col w-full">
+                    <Fighter data={value} />
+                    <SecondFighter data={value} />
+                  </div>
+                  <div className="borders w-10" />
+                </div>
+              )
+          )}
       </div>
     </div>
   );

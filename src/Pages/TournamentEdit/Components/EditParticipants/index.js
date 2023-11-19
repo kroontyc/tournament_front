@@ -83,7 +83,7 @@ const EditParticipants = () => {
       <div
         className={
           openModal ? (
-            "overlay w-full h-full flex flex-col items-center justify-center fixed"
+            "upper w-full h-full flex flex-col items-center justify-center fixed"
           ) : (
             "flex w-10"
           )
@@ -99,7 +99,7 @@ const EditParticipants = () => {
           }}
           className="max-w-[800px] m-auto"
         >
-          <Modal.Header>Terms of Service</Modal.Header>
+          <Modal.Header>Registrar participante</Modal.Header>
           <Modal.Body className="p-4">
             <div className="space-y-6 w-full">
               <div class="flex flex-wrap -mx-3 w-full">
@@ -240,7 +240,9 @@ const EditParticipants = () => {
           </Modal.Footer>
         </Modal>
       </div>
-      <div className="w-full h-full glass-effect">
+      <div
+        className={openModal ? "opacity-[0.2]" : "w-full h-full glass-effect"}
+      >
         <div class="flex items-center justify-center w-full">
           {data &&
           data.data && (
