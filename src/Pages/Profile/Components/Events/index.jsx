@@ -37,13 +37,22 @@ const Events = ({ data }) => {
                     </p>
                   </div>
                 </div>
-                <div>
+                <div className="flex items-center gap-10">
                   <img
                     className="w-[50px] h-[40px]"
                     src="https://static.todamateria.com.br/upload/ba/nd/bandeiradobrasil-2-cke.jpg"
                     alt="br"
                   />
+                   <Button
+                  value={value.id}
+                  text={"Editar evento"}
+                  background={"#5bb65b"}
+                  color={"#fff"}
+                  icon={faEdit}
+                  click={handleEditBtn}
+                />
                 </div>
+                
               </div>
             ))}
           </div>
