@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { byId } from "../../Service/Tournament";
 import AddParticipants from "./Components/AddParticipants";
+import Categories from "./Components/Categories";
 import EditParticipants from "./Components/EditParticipants";
 import Keys from "./Components/Keys";
 const options = [
@@ -12,13 +13,13 @@ const options = [
 ];
 const EditTournament = () => {
   const [ data, setData ] = useState([]);
-  const [ tab, setTab ] = useState("ADD");
+  const [ tab, setTab ] = useState("Adicionar participantes");
   const getTournamentById = async (id) => {
     try {
       let req = await byId(id);
       setData({ data: req.data[0], user: req.user[0] });
       if (req) {
-        console.log("asa", req);
+        //console.log("asa", req);
       }
     } catch (e) {
       console.log("e", e);
@@ -81,16 +82,17 @@ const EditTournament = () => {
           </p>
         ))}
       </div>
-      <div className="mt-10">
+      <div className="mt-10 w-full">
         {data &&
         data.data && (
-          <div>
-            <div>
+        
+            <div className="w-full">
               {tab === "Adicionar participantes" && <AddParticipants />}
               {tab === "Editar participantes" && <EditParticipants />}
               {tab === "Chaves" && <Keys />}
+              {tab === "Categorias" && <Categories data={data}/>}
             </div>
-          </div>
+          
         )}
       </div>
     </div>

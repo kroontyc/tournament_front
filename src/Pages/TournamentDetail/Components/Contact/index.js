@@ -20,26 +20,26 @@ const Contact = ({ data }) => {
       {data && (
         <div className="border radius-[5px]">
           <div className="flex p-4">
-            <p className="w-[50%]">Categoria</p>
-            <p className="w-[25%]">Competidor</p>
-            <p className="w-[25%]">Escola</p>
+            <p className="w-[54%]">Categoria</p>
+            <p className="w-[23%]">Competidor</p>
+            <p className="w-[23%]">Escola</p>
           </div>
           <div className="w-full">
             {participant &&
             participant.data && (
               <div className="w-full flex-col">
-                {participant.data.map((val) => (
+                {participant.data.map((val) => val.first_fighter_name != 'VAZIO' &&(
                   <div className="w-full flex border items-center">
-                    <p className="w-[50%]">{val.second_fighter_categorie}</p>
+                    <p className="w-[50%] ml-[20px]">{val.second_fighter_categorie}</p>
                     <div className="flex flex-col w-[25%] borders-t">
-                      <p className="text-truncate text-border item-one flex justify-center items-center text-bold font-bold">
+                      <p className="text-truncate text-border item-one flex justify-center items-center text-bold font-bold ">
                         {val.first_fighter_name}
                       </p>
                       <p className="text-truncate item-one flex justify-center items-center text-bold font-bold">
                         {val.second_fighter_name}
                       </p>
                     </div>
-                    <div className="flex flex-col w-[23%] borders-t">
+                    <div className="flex flex-col w-[25%] borders-t">
                       <p className="text-truncate text-border text-center item-one flex justify-center items-center">
                         {val.first_fighter_brand}
                       </p>

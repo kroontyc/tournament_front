@@ -48,7 +48,7 @@ const Profile = () => {
           ))}
         </ul>
       </div>
-      <div>{tab === "Eventos" && <Events data={data} />}</div>
+      <div className="w-[80%]">{tab === "Eventos" && <Events data={data} />}</div>
     </div>
   );
 };

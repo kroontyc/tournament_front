@@ -79,7 +79,7 @@ const EditParticipants = () => {
     getParticipants();
   }, []);
   return (
-    <div>
+    <div className="w-full items-center flex flex-col justify-center">
       <div
         className={
           openModal ? (
@@ -246,7 +246,7 @@ const EditParticipants = () => {
         <div class="flex items-center justify-center w-full">
           {data &&
           data.data && (
-            <div className="w-full h-full">
+            <div className="w-full h-full flex flex-col justify-center">
               {data.data.map((value) => (
                 <div
                   className="flex items-center justify-between gap-5 p-2 border m-2 rounded-[5px] tournament-card"

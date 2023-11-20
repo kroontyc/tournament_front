@@ -35,8 +35,8 @@ const AddParticipants = () => {
   };
 
   return (
-    <div className="w-full h-full">
-      <div className="mt-10">
+    <div className="w-full h-full flex flex-col justify-center items-center">
+      <div className="mt-10 ">
         <button
           onClick={() => {
             setType("m");
@@ -119,7 +119,7 @@ const AddParticipants = () => {
           </div>
         </div>
       ) : (
-        <div className="w-full h-full">
+        <div className="w-full h-full flex flex-col justify-center items-center">
           <div class="w-full max-w-lg mt-10">
             <div class="flex flex-wrap -mx-3 mb-6">
               <div className="flex items-baseline w-full">

@@ -5,9 +5,10 @@ const Paginate = ({ data, click }) => {
   const numbers = Array.from({ length: data.last_page }, (_, i) => i + 1);
   return (
     <nav aria-label="Page navigation example" className="w-full h-full">
-      <ul class="flex items-center  justify-center  w-full h-full h-10 overflow-x-style m-auto">
-        {numbers.map((val) => (
+      <ul class="flex items-center  justify-center  w-full h-full h-10  m-auto">
+        {numbers.map((val) => val < 16 &&(
           <li
+           className="cursor-pointer"
             onClick={(event) => {
               click(val);
             }}

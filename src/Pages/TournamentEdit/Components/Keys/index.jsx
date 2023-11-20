@@ -38,7 +38,7 @@ const Keys = () => {
     getData();
   }, []);
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full flex flex-col justify-center items-center">
       <div className="flex flex-col items-center">
         {!data.data ||
           (!data.data.length > 0 && (

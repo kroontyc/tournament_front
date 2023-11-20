@@ -5,7 +5,7 @@ import Detail from "./Components/Detail";
 import Participants from "./Components/Participants";
 import Contact from "./Components/Contact";
 import { Link } from "react-router-dom";
-const options = [ "Detalhe", "Participantes", "Categorias" ];
+const options = [ "Detalhe", "Participantes", "Lutas" ];
 
 const TournamentDetail = () => {
   const [ data, setData ] = useState([]);
@@ -141,7 +141,7 @@ const TournamentDetail = () => {
       )}
       <div>{tab === "Participantes" && <Participants data={data.data} />}</div>
       <div className="w-full">
-        {tab === "Categorias" && <Contact data={data.data} />}
+        {tab === "Lutas" && <Contact data={data.data} />}
       </div>
     </div>
   );
