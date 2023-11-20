@@ -100,7 +100,7 @@ const Participants = () => {
           }}
           className="max-w-[800px] m-auto"
         >
-          <Modal.Header>Terms of Service</Modal.Header>
+          <Modal.Header>Registrar participante</Modal.Header>
           <Modal.Body className="p-4">
             <div className="space-y-6 w-full">
               <div class="flex flex-wrap -mx-3 w-full">

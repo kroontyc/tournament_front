@@ -4,7 +4,12 @@ import { byId } from "../../Service/Tournament";
 import AddParticipants from "./Components/AddParticipants";
 import EditParticipants from "./Components/EditParticipants";
 import Keys from "./Components/Keys";
-
+const options = [
+  "Adicionar participantes",
+  "Editar participantes",
+  "Categorias",
+  "Chaves"
+];
 const EditTournament = () => {
   const [ data, setData ] = useState([]);
   const [ tab, setTab ] = useState("ADD");
@@ -27,62 +32,63 @@ const EditTournament = () => {
   }, []);
   return (
     <div className="w-full p-[14px] items-center justify-center mt-[40px] flex flex-col">
+      <div className="w-full">
+        {data &&
+        data.data && (
+          <div className="general-info w-full p-5 banner">
+            <h1
+              className="title text-white"
+              style={{ backdropFilter: "blur(10px)" }}
+            >
+              {data.data.name}
+            </h1>
+            <div className="mt-10 flex items-center justify-center  w-full gap-20">
+              <p
+                className="text-white"
+                style={{ backdropFilter: "blur(10px)" }}
+              >
+                {data.data.data}
+              </p>
+              <p
+                className="text-white"
+                style={{ backdropFilter: "blur(10px)" }}
+              >
+                {data.data.federation}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="bg-[#eeeeee] h-[80px] w-full mb-10 flex gap-10 items-center">
+        {options.map((value) => (
+          <p
+            class="me-2"
+            onClick={() => {
+              setTab(value);
+            }}
+          >
+            <a
+              href="#"
+              aria-current="page"
+              class={`
+                inline-block p-4 ${value === tab
+                  ? "text-white bg-blue-300"
+                  : "  rounded-t-lg active "}
+                `}
+            >
+              {value}
+            </a>
+          </p>
+        ))}
+      </div>
       <div className="mt-10">
         {data &&
         data.data && (
           <div>
-            <h1 className="title">{data.data.name}</h1>
-            <p className="sub-title">{data.data.federation}</p>
-            <div className="mt-10 flex items-center gap-10">
-              <div
-                onClick={() => {
-                  setTab("ADD");
-                }}
-                className={
-                  tab === "ADD" ? (
-                    "text-blue-500 underline cursor-pointer"
-                  ) : (
-                    " cursor-pointer"
-                  )
-                }
-              >
-                Adicionar Participantes
-              </div>
-              <div
-                onClick={() => {
-                  setTab("EDIT");
-                }}
-                className={
-                  tab === "EDIT" ? (
-                    "text-blue-500 underline cursor-pointer"
-                  ) : (
-                    " cursor-pointer"
-                  )
-                }
-              >
-                Editar Participantes
-              </div>
-
-              <div
-                onClick={() => {
-                  setTab("KEY");
-                }}
-                className={
-                  tab === "KEY" ? (
-                    "text-blue-500 underline cursor-pointer"
-                  ) : (
-                    " cursor-pointer"
-                  )
-                }
-              >
-                Chaves
-              </div>
-            </div>
-
             <div>
-              {tab === "ADD" && <AddParticipants />}
-              {tab === "EDIT" && <EditParticipants />}
-              {tab === "KEY" && <Keys />}
+              {tab === "Adicionar participantes" && <AddParticipants />}
+              {tab === "Editar participantes" && <EditParticipants />}
+              {tab === "Chaves" && <Keys />}
             </div>
           </div>
         )}

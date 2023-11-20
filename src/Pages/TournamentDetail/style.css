@@ -1,0 +1,50 @@
+.register-container {
+  background: #eeeeff;
+  border: 1px solid #ddddff;
+  position: relative;
+  min-height: 300px;
+}
+
+.btn-def {
+  cursor: pointer;
+  width: 80%;
+  padding: 10px;
+  background: #fff;
+  border: solid 1px #d6c8c8;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.hosted-by,
+.general-info {
+  padding: 10px;
+  border: solid 1px #d6c8c8;
+}
+
+.banner {
+  background-image: url('https://static.todamateria.com.br/upload/ba/nd/bandeiradobrasil-2-cke.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.borders-t {
+  min-width: 25%;
+
+  border-left: solid 1px #eeeeee;
+  border-right: solid 1px #eeeeee;
+}
+
+.text-border {
+  border-bottom: solid 1px #eeeeee;
+}
+
+.item-one {
+  height: 60px;
+}
