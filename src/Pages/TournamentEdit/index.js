@@ -5,11 +5,13 @@ import AddParticipants from "./Components/AddParticipants";
 import Categories from "./Components/Categories";
 import EditParticipants from "./Components/EditParticipants";
 import Keys from "./Components/Keys";
+import Arenas from "./Components/Arenas";
 const options = [
   "Adicionar participantes",
   "Editar participantes",
   "Categorias",
-  "Chaves"
+  "Chaves",
+  "Arenas"
 ];
 const EditTournament = () => {
   const [ data, setData ] = useState([]);
@@ -85,14 +87,13 @@ const EditTournament = () => {
       <div className="mt-10 w-full">
         {data &&
         data.data && (
-        
-            <div className="w-full">
-              {tab === "Adicionar participantes" && <AddParticipants />}
-              {tab === "Editar participantes" && <EditParticipants />}
-              {tab === "Chaves" && <Keys />}
-              {tab === "Categorias" && <Categories data={data}/>}
-            </div>
-          
+          <div className="w-full">
+            {tab === "Adicionar participantes" && <AddParticipants />}
+            {tab === "Editar participantes" && <EditParticipants />}
+            {tab === "Chaves" && <Keys />}
+            {tab === "Categorias" && <Categories data={data} />}
+            {tab === "Arenas" && <Arenas data={data} />}
+          </div>
         )}
       </div>
     </div>

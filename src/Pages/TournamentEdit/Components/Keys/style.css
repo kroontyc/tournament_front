@@ -6,3 +6,13 @@
   background: rgba(131, 205, 255, 0.95);
   font-weight: 600;
 }
+
+.plus-btn:hover {
+  background: rgba(131, 205, 255, 0.95);
+}
+
+.container-fighter {
+  width: 100%;
+  box-shadow: inset 0px 0px 2px 0px;
+  padding: 10px;
+}
