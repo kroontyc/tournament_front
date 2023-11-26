@@ -16,7 +16,10 @@ const createTournament = async (name, reward, date, location, federation) => {
       title: "Success!",
       text: "Evento criado com sucesso!",
       icon: "success",
-      confirmButtonText: "Ok"
+      confirmButtonText: "Ok",
+      willClose: () => {
+        window.location.reload(); // This will refresh the page
+      }
     });
     window.location.reload();
     return response.data;
@@ -27,7 +30,10 @@ const createTournament = async (name, reward, date, location, federation) => {
       title: "Error!",
       text: "Failed to create tournament.",
       icon: "error",
-      confirmButtonText: "Ok"
+      confirmButtonText: "Ok",
+      willClose: () => {
+        window.location.reload(); // This will refresh the page
+      }
     });
     throw error;
   }
@@ -79,7 +85,10 @@ const createUserManul = async (payload) => {
       title: "Success!",
       text: "Participante Criado!",
       icon: "success",
-      confirmButtonText: "Ok"
+      confirmButtonText: "Ok",
+      willClose: () => {
+        window.location.reload(); // This will refresh the page
+      }
     });
     window.location.reload();
     return response.data;
@@ -90,7 +99,10 @@ const createUserManul = async (payload) => {
       title: "Error!",
       text: "Falha ao inserir participante.",
       icon: "error",
-      confirmButtonText: "Ok"
+      confirmButtonText: "Ok",
+      willClose: () => {
+        window.location.reload(); // This will refresh the page
+      }
     });
     throw error;
   }
@@ -111,7 +123,10 @@ const createByFile = async (id, file) => {
       title: "Success!",
       text: "Participante Criado!",
       icon: "success",
-      confirmButtonText: "Ok"
+      confirmButtonText: "Ok",
+      willClose: () => {
+        window.location.reload(); // This will refresh the page
+      }
     });
 
     return response.data;
@@ -121,7 +136,10 @@ const createByFile = async (id, file) => {
       title: "Error!",
       text: "Falha ao inserir participante.",
       icon: "error",
-      confirmButtonText: "Ok"
+      confirmButtonText: "Ok",
+      willClose: () => {
+        window.location.reload(); // This will refresh the page
+      }
     });
     throw error;
   }
@@ -165,7 +183,10 @@ const updatePeople = async (payload, id) => {
       title: "Success!",
       text: "Evento criado com sucesso!",
       icon: "success",
-      confirmButtonText: "Ok"
+      confirmButtonText: "Ok",
+      willClose: () => {
+        window.location.reload(); // This will refresh the page
+      }
     });
     //window.location.reload();
     return response.data;
@@ -176,7 +197,10 @@ const updatePeople = async (payload, id) => {
       title: "Error!",
       text: "Failed to create tournament.",
       icon: "error",
-      confirmButtonText: "Ok"
+      confirmButtonText: "Ok",
+      willClose: () => {
+        window.location.reload(); // This will refresh the page
+      }
     });
     throw error;
   }

@@ -21,7 +21,10 @@ const createCategories = async (payload) => {
       title: "Success!",
       text: "Chaves criadas com sucesso!",
       icon: "success",
-      confirmButtonText: "Ok"
+      confirmButtonText: "Ok",
+      willClose: () => {
+        window.location.reload(); // This will refresh the page
+      }
     });
     return response.data;
   } catch (error) {
@@ -29,7 +32,10 @@ const createCategories = async (payload) => {
       title: "Error!",
       text: "Ocorreu um erro.",
       icon: "error",
-      confirmButtonText: "Ok"
+      confirmButtonText: "Ok",
+      willClose: () => {
+        window.location.reload(); // This will refresh the page
+      }
     });
     // Handle error appropriately
     console.error("Error creating tournament:", error);
@@ -38,4 +44,4 @@ const createCategories = async (payload) => {
   }
 };
 
-export { getAll,createCategories };
+export { getAll, createCategories };

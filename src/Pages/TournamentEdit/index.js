@@ -90,7 +90,7 @@ const EditTournament = () => {
           <div className="w-full">
             {tab === "Adicionar participantes" && <AddParticipants />}
             {tab === "Editar participantes" && <EditParticipants />}
-            {tab === "Chaves" && <Keys />}
+            {tab === "Chaves" && <Keys owner={data} />}
             {tab === "Categorias" && <Categories data={data} />}
             {tab === "Arenas" && <Arenas data={data} />}
           </div>

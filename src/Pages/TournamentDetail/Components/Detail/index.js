@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 const Detail = ({ data }) => {
-  console.log("data", data);
   return (
     <div className="w-100 p-[14px] items-center justify-center mt-[40px] h-100 flex flex-col">
       {data && (
