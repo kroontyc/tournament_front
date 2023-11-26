@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Modal } from "flowbite-react";
 import Button from "../../../../Components/Buttons";
 import { createNewArena, getAll } from "../../../../Service/Arenas";
+import { createResult } from "../../../../Service/Results";
 const Arenas = ({ data }) => {
-  const [ categories, setCategories ] = React.useState([]);
+  const [ edit, setEdit ] = React.useState("");
   const [ openModal, setOpenModal ] = useState(false);
-
+  const [ winner, setWinner ] = useState();
   const [ status, setStatus ] = useState("Ativa");
   const [ name, setName ] = useState("");
   const [ arenas, setArenas ] = useState([]);
@@ -27,8 +28,26 @@ const Arenas = ({ data }) => {
   const getArenas = async () => {
     if (data && data.data.owner_id) {
       let req = await getAll(data.data.owner_id);
+      console.log(req);
       setArenas(req);
     }
+  };
+
+  const handleRadioChange = (event) => {
+    setWinner(event.target.value);
+  };
+
+  const save = async () => {
+    console.log("asa", edit);
+    console.log("b", winner);
+    const payload = {
+      match_id: edit.current_match,
+      arena_id: edit.id,
+      winner: winner,
+      p1: edit.fighter_1,
+      p2: edit.fighter_2
+    };
+    await createResult(payload);
   };
 
   React.useEffect(() => {
@@ -112,7 +131,14 @@ const Arenas = ({ data }) => {
                   <div className="border">
                     <div className="flex items-center">
                       <div className="w-[20%] border-r-4 p-4">
-                        <input type="checkbox" />
+                        <button
+                          className="p-2 border"
+                          onClick={() => {
+                            setEdit(val);
+                          }}
+                        >
+                          Editar
+                        </button>
                       </div>
                       <div className="w-[60%]  border-r-4 p-4">
                         <p>Status: {val.status}</p>
@@ -123,18 +149,50 @@ const Arenas = ({ data }) => {
                     </div>
                   </div>
                   <div className="border-t-2">
-                    <div className="min-h-[300px] border flex flex-col items-center justify-center">
+                    <div className="min-h-[300px] border flex flex-col items-center justify-center ">
                       {val.current_match ? (
-                        <div className="flex items-center justify-center flex-col gap-3">
-                          <div className="box-fighter flex border h-full items-center  w-[500px]">
+                        <div className="flex items-center justify-center flex-col gap-3 relative">
+                          <div className="box-fighter flex border h-full items-center  w-[500px]  ">
                             <div className="h-full min-h-[50px] w-[10px] bg-red-500" />
-                            <p className="p-2">{val.first_fighter_name}</p>
+                            <p className="p-2 w-[90%]">
+                              {val.first_fighter_name}
+                            </p>
+                            {edit.id == val.id && (
+                              <input
+                                type="radio"
+                                name="fighterSelect"
+                                value={val.fighter_1}
+                                className="mr-4 w-[10%] items-end flex justify-end"
+                                onChange={handleRadioChange}
+                              />
+                            )}
                           </div>
                           X
-                          <div className="box-fighter flex border h-full items-center  w-[500px]">
+                          <div className="box-fighter flex border h-full items-center  w-[500px] ">
                             <div className="h-full min-h-[50px] w-[10px] bg-blue-500" />
-                            <p className="p-2">{val.second_fighter_name}</p>
+                            <p className="p-2 w-[90%]">
+                              {val.second_fighter_name}
+                            </p>
+                            {edit.id == val.id && (
+                              <input
+                                type="radio"
+                                name="fighterSelect"
+                                value={val.fighter_2}
+                                className="mr-4 w-[10%] items-end flex justify-end"
+                                onChange={handleRadioChange}
+                              />
+                            )}
                           </div>
+                          {edit.id == val.id && (
+                            <button
+                              className="absolute -right-[80px] bg-[#5bb65b] p-2 text-white"
+                              onClick={() => {
+                                save();
+                              }}
+                            >
+                              Salvar
+                            </button>
+                          )}
                         </div>
                       ) : (
                         <p className="cursor-pointer">Sem lutadores</p>
