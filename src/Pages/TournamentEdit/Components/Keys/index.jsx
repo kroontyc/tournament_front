@@ -89,7 +89,7 @@ const Keys = ({ owner }) => {
                     {number > 1 ? (
                       <div className="flex items-center gap-5">
                         <div className="flex flex-col ">
-                          <div className="border  hover-card">
+                          <div className="border  hover-card flex items-center">
                             {val.result && parseInt(val.accStage) == number ? (
                               <WinnerCard
                                 name={val.result}
@@ -99,14 +99,54 @@ const Keys = ({ owner }) => {
                             ) : (
                               <Fighter data={false} index={index + 1} />
                             )}
+                            {isEdit &&
+                            isEdit[0] &&
+                            isEdit[0].name === matches[0].name && (
+                              <div className="flex gap-5 items-center">
+                                <div className="flex gap-5 items-center">
+                                  <select>
+                                    <option disabled selected>
+                                      W/L
+                                    </option>
+                                    <option value={1}>Winner</option>
+                                    <option>Reset</option>
+                                  </select>
+                                </div>
+                                <input
+                                  type="text"
+                                  placeholder="Score"
+                                  className="w-20 border mr-2 flex items-center justify-center text-center"
+                                />
+                              </div>
+                            )}
                           </div>
-                          <div className="border  hover-card">
+                          <div className="border  hover-card flex items-center">
                             <Fighter data={false} index={index} />
+                            {isEdit &&
+                            isEdit[0] &&
+                            isEdit[0].name === matches[0].name && (
+                              <div className="flex gap-5 items-center">
+                                <div className="flex gap-5 items-center">
+                                  <select>
+                                    <option disabled selected>
+                                      W/L
+                                    </option>
+                                    <option value={1}>Winner</option>
+                                    <option>Reset</option>
+                                  </select>
+                                </div>
+                                <input
+                                  type="text"
+                                  placeholder="Score"
+                                  className="w-20 border mr-2 flex items-center justify-center text-center"
+                                />
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
                     ) : (
-                      <div className="border">
+                      <div className="border flex items-center">
                         {val.result && parseInt(val.accStage) == number ? (
                           <WinnerCard
                             name={val.result}
@@ -120,6 +160,26 @@ const Keys = ({ owner }) => {
                             index={index + 1}
                             notColor={true}
                           />
+                        )}
+                        {isEdit &&
+                        isEdit[0] &&
+                        isEdit[0].name === matches[0].name && (
+                          <div className="flex gap-5 items-center">
+                            <div className="flex gap-5 items-center">
+                              <select>
+                                <option disabled selected>
+                                  W/L
+                                </option>
+                                <option value={1}>Winner</option>
+                                <option>Reset</option>
+                              </select>
+                            </div>
+                            <input
+                              type="text"
+                              placeholder="Score"
+                              className="w-20 border mr-2 flex items-center justify-center text-center"
+                            />
+                          </div>
                         )}
                       </div>
                     )}
