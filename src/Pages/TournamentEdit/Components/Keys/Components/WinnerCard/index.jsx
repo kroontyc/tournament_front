@@ -1,6 +1,6 @@
 import React from "react";
 
-const Fighter = ({ data, index, notColor }) => {
+const WinnerCard = ({ name, team, index, notColor }) => {
   return (
     <div>
       <div className="w-full flex   items-center  cursor-pointer min-h-[40px] min-w-[300px]">
@@ -18,12 +18,9 @@ const Fighter = ({ data, index, notColor }) => {
           />
         )}
         <div className="flex flex-col ml-4">
-          <p className="lower-title  truncate">{data.first_fighter_name}</p>
+          <p className="lower-title  truncate">{name}</p>
           <div className="flex  justify-between items-center">
-            <p className="lower-title  truncate">{data.first_fighter_brand}</p>
-            <p className="lower-title  truncate">
-              {data.first_fighter_categorie}
-            </p>
+            <p className="lower-title  truncate">{team}</p>
           </div>
         </div>
       </div>
@@ -31,4 +28,4 @@ const Fighter = ({ data, index, notColor }) => {
   );
 };
 
-export default Fighter;
+export default WinnerCard;

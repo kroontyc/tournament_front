@@ -8,10 +8,7 @@ const createResult = async (payload) => {
       title: "Success!",
       text: "Atualizado com sucesso!",
       icon: "success",
-      confirmButtonText: "Ok",
-      willClose: () => {
-        window.location.reload(); // This will refresh the page
-      }
+      confirmButtonText: "Ok"
     });
     return response.data;
   } catch (error) {
@@ -19,10 +16,7 @@ const createResult = async (payload) => {
       title: "Error!",
       text: "Ocorreu um erro.",
       icon: "error",
-      confirmButtonText: "Ok",
-      willClose: () => {
-        window.location.reload(); // This will refresh the page
-      }
+      confirmButtonText: "Ok"
     });
     // Handle error appropriately
     console.error("Error creating tournament:", error);
