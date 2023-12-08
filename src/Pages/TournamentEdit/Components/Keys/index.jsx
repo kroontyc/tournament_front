@@ -17,7 +17,7 @@ import {
 import { createResult } from "../../../../Service/Results";
 import WinnerCard from "./Components/WinnerCard";
 
-const Keys = ({ owner }) => {
+const Keys = ({ owner, idInternal }) => {
   // Modificando o estado inicial para ser um objeto em vez de um array
   const [ data, setData ] = React.useState({});
   const [ openModal, setOpenModal ] = React.useState(false);
@@ -30,7 +30,7 @@ const Keys = ({ owner }) => {
   const [ p2Score, setP2Score ] = React.useState("");
   const getData = async () => {
     const id = window.location.pathname.split("/")[3];
-    let response = await byId(id);
+    let response = await byId(idInternal ? idInternal : id);
     if (response && response.data) {
       // const groupedData = groupByCategory(response.data);
       setData(response.data);
@@ -89,7 +89,12 @@ const Keys = ({ owner }) => {
                     {number > 1 ? (
                       <div className="flex items-center gap-5">
                         <div className="flex flex-col ">
-                          <div className="border  hover-card flex items-center">
+                          <div
+                            className="border  hover-card flex items-center"
+                            data-player-result={val.result}
+                            onMouseEnter={() => handleMouseEnter(val.result)}
+                            onMouseLeave={() => handleMouseLeave(val.result)}
+                          >
                             {val.result && parseInt(val.accStage) == number ? (
                               <WinnerCard
                                 name={val.result}
@@ -146,7 +151,24 @@ const Keys = ({ owner }) => {
                         </div>
                       </div>
                     ) : (
-                      <div className="border flex items-center">
+                      <div
+                        className={
+                          val.result && parseInt(val.accStage) == number ? (
+                            "winner"
+                          ) : (
+                            "border flex items-center"
+                          )
+                        }
+                        data-player-result={
+                          val.result && parseInt(val.accStage) == number ? (
+                            val.result
+                          ) : (
+                            ""
+                          )
+                        }
+                        onMouseEnter={() => handleMouseEnter(val.result)}
+                        onMouseLeave={() => handleMouseLeave(val.result)}
+                      >
                         {val.result && parseInt(val.accStage) == number ? (
                           <WinnerCard
                             name={val.result}
@@ -160,26 +182,6 @@ const Keys = ({ owner }) => {
                             index={index + 1}
                             notColor={true}
                           />
-                        )}
-                        {isEdit &&
-                        isEdit[0] &&
-                        isEdit[0].name === matches[0].name && (
-                          <div className="flex gap-5 items-center">
-                            <div className="flex gap-5 items-center">
-                              <select>
-                                <option disabled selected>
-                                  W/L
-                                </option>
-                                <option value={1}>Winner</option>
-                                <option>Reset</option>
-                              </select>
-                            </div>
-                            <input
-                              type="text"
-                              placeholder="Score"
-                              className="w-20 border mr-2 flex items-center justify-center text-center"
-                            />
-                          </div>
                         )}
                       </div>
                     )}
@@ -219,6 +221,24 @@ const Keys = ({ owner }) => {
     setIsEdit(param);
   };
 
+  const handleMouseEnter = (playerValue) => {
+    const elements = document.querySelectorAll(
+      `[data-player-result='${playerValue}']`
+    );
+    elements.forEach((element) => {
+      element.classList.add("highlighted");
+    });
+  };
+
+  const handleMouseLeave = (playerValue) => {
+    const elements = document.querySelectorAll(
+      `[data-player-result='${playerValue}']`
+    );
+    elements.forEach((element) => {
+      element.classList.remove("highlighted");
+    });
+  };
+
   React.useEffect(() => {
     getData();
     getArenas();
@@ -247,33 +267,35 @@ const Keys = ({ owner }) => {
                   style={{ overflowX: "auto" }}
                   className="mt-10 flex flex-col gap-[5px] container-fighter w-full"
                 >
-                  <div className="flex items-center gap-10">
-                    <h2>{matches[0].name}</h2>
-                    {isEdit &&
-                    isEdit[0] &&
-                    isEdit[0].name === matches[0].name ? (
-                      <p
-                        className="p-2 bg-blue-300 border text-white"
-                        role="button"
-                        onClick={() => {
-                          setIsEdit(null);
-                          getData();
-                        }}
-                      >
-                        Salvar
-                      </p>
-                    ) : (
-                      <p
-                        className="p-2 bg-blue-300 border text-white"
-                        role="button"
-                        onClick={() => {
-                          handleEdit(matches);
-                        }}
-                      >
-                        Editar
-                      </p>
-                    )}
-                  </div>
+                  {!idInternal && (
+                    <div className="flex items-center gap-10">
+                      <h2>{matches[0].name}</h2>
+                      {isEdit &&
+                      isEdit[0] &&
+                      isEdit[0].name === matches[0].name ? (
+                        <p
+                          className="p-2 bg-blue-300 border text-white"
+                          role="button"
+                          onClick={() => {
+                            setIsEdit(null);
+                            getData();
+                          }}
+                        >
+                          Salvar
+                        </p>
+                      ) : (
+                        <p
+                          className="p-2 bg-blue-300 border text-white"
+                          role="button"
+                          onClick={() => {
+                            handleEdit(matches);
+                          }}
+                        >
+                          Editar
+                        </p>
+                      )}
+                    </div>
+                  )}
                   <div className="flex items-center">
                     <div className="flex  flex-col">
                       {matches.map(
@@ -285,6 +307,7 @@ const Keys = ({ owner }) => {
                             >
                               <div className="flex flex-col w-full mb-5">
                                 <div
+                                  data-player-result={match.first_fighter_name}
                                   className={
                                     match.first_fighter_name ===
                                     match.result ? (
@@ -340,6 +363,7 @@ const Keys = ({ owner }) => {
                                   )}
                                 </div>
                                 <div
+                                  data-player-result={match.second_fighter_name}
                                   className={
                                     match.second_fighter_name ===
                                     match.result ? (

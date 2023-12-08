@@ -23,3 +23,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.highlighted {
+  border: solid 2px #585955;
+  box-shadow: 4px 2px 5px 1px rgba(0, 0, 0, 0.75);
+}
+
+.winner {
+  border: solid 2px #fff67a !important;
+}
