@@ -34,7 +34,7 @@ const EditTournament = () => {
     getTournamentById(param);
   }, []);
   return (
-    <div className="w-full p-[14px] items-center justify-center mt-[40px] flex flex-col">
+    <div className="w-full  items-center justify-center  flex flex-col">
       <div className="w-full">
         {data &&
         data.data && (
@@ -62,7 +62,7 @@ const EditTournament = () => {
           </div>
         )}
       </div>
-      <div className="bg-[#eeeeee] h-[80px] w-full mb-10 flex gap-10 items-center">
+      <div className="bg-[#eeeeee] h-[80px] w-full mb-10 flex gap-10 items-center p-[14px]">
         {options.map((value) => (
           <p
             class="me-2"

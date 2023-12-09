@@ -37,7 +37,7 @@ const Categories = ({ data }) => {
     getCategories();
   }, []);
   return (
-    <div className="flex flex-col w-full justify-center w-[80%]">
+    <div className="flex flex-col w-full justify-center w-[80%] p-[14px]">
       <Modal
         show={openModal}
         onClose={() => setOpenModal(false)}

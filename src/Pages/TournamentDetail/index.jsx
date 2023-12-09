@@ -44,7 +44,7 @@ const TournamentDetail = () => {
     getTournamentById(param);
   }, []);
   return (
-    <div className="w-80% m-auto p-[14px] items-center justify-center mt-[40px] h-100 flex flex-col">
+    <div className="w-80% m-auto items-center justify-center h-100 flex flex-col">
       <div className="w-full">
         {data &&
         data.data && (
@@ -72,7 +72,7 @@ const TournamentDetail = () => {
           </div>
         )}
       </div>
-      <div className="bg-[#eeeeee] h-[80px] w-full mb-10 flex gap-10 items-center">
+      <div className="bg-[#eeeeee] h-[80px] w-full mb-10 flex gap-10 items-center p-[14px]">
         {options.map((value) => (
           <p
             class="me-2"

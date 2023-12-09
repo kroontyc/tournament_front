@@ -246,7 +246,7 @@ const Keys = ({ owner, idInternal }) => {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
-      <div className="flex flex-col items-center w-full">
+      <div className="flex flex-col items-center w-full p-[14px]">
         {Object.keys(data).length === 0 ? (
           <div className="mt-10">
             <h1 className="mb-2">Você ainda não gerou as chaves do torneio</h1>

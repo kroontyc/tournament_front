@@ -7,7 +7,7 @@ const Tournament = () => {
   const [ name, setName ] = useState("");
   const [ location, setLocation ] = useState("");
   const [ federation, setFederation ] = useState("");
-  const [ reward, setReward ] = useState("");
+  const [ reward, setReward ] = useState("200");
   const [ date, setDate ] = useState("");
   const postCreateTournament = () => {
     try {
@@ -22,8 +22,8 @@ const Tournament = () => {
       <div className="flex flex-col">
         <p className="sub-title mt-10">Insira os dados abaixo</p>
         <div class="w-full max-w-lg mt-10">
-          <div class="flex flex-wrap -mx-3 mb-6">
-            <div className="flex items-baseline">
+          <div class="flex flex-wrap -mx-3 mb-6 wfull">
+            <div className="flex items-baseline w-full">
               <div class="w-full px-3">
                 <label
                   class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -43,22 +43,6 @@ const Tournament = () => {
                 <p class="text-gray-600 text-xs italic">
                   Insira os dados referentes ao acontecimento do evento.
                 </p>
-              </div>
-              <div class="w-full px-3 w-[30%]">
-                <label
-                  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                  for="grid-password"
-                >
-                  Pontuação de Rank
-                </label>
-                <input
-                  class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="grid-password"
-                  type="number"
-                  onChange={(event) => {
-                    setReward(event.target.value);
-                  }}
-                />
               </div>
             </div>
           </div>
