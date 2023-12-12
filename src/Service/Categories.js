@@ -1,9 +1,14 @@
 import apiClient from "./Cliente";
 import Swal from "sweetalert2";
 
-const getAll = async (id) => {
+const getAll = async (id, tournament) => {
   try {
-    const response = await apiClient.get("/categories/" + id);
+    const config = {
+      headers: {
+        tournament: tournament // Adicionando o 'id' ao header da requisição
+      }
+    };
+    const response = await apiClient.get("/categories/" + id, config);
 
     return response.data;
   } catch (error) {
@@ -21,10 +26,7 @@ const createCategories = async (payload) => {
       title: "Success!",
       text: "Chaves criadas com sucesso!",
       icon: "success",
-      confirmButtonText: "Ok",
-      willClose: () => {
-        window.location.reload(); // This will refresh the page
-      }
+      confirmButtonText: "Ok"
     });
     return response.data;
   } catch (error) {
@@ -32,10 +34,7 @@ const createCategories = async (payload) => {
       title: "Error!",
       text: "Ocorreu um erro.",
       icon: "error",
-      confirmButtonText: "Ok",
-      willClose: () => {
-        window.location.reload(); // This will refresh the page
-      }
+      confirmButtonText: "Ok"
     });
     // Handle error appropriately
     console.error("Error creating tournament:", error);

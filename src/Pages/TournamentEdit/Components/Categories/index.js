@@ -8,11 +8,15 @@ const Categories = ({ data }) => {
   const [ weight, setWeight ] = useState("");
   const [ height, setHeight ] = useState("");
   const [ min_weight, setMin ] = useState("");
-  const [ ruler, setRuler ] = useState("");
+  const [ ruler, setRuler ] = useState("altura");
   const [ name, setName ] = useState("");
 
   const getCategories = async () => {
-    let req = await getAll(data.data.owner_id);
+    let req = await getAll(
+      data.data.owner_id,
+      window.location.pathname.split("/")[3]
+    );
+
     setCategories(req);
   };
 
@@ -213,23 +217,31 @@ const Categories = ({ data }) => {
             </thead>
             <tbody>
               {categories &&
-                categories.map((val) => (
-                  <tr className="bg-white border-b">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
-                    >
-                      {val.name}
-                    </th>
-                    <td className="px-6 py-4">{val.ruler || "Peso"}</td>
-                    <td className="px-6 py-4">
-                      {val.status == 1 ? "Ativo" : "Inativo"}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="title-card">Editar</span>
-                    </td>
-                  </tr>
-                ))}
+                categories.map(
+                  (val) =>
+                    val.name != "VAZIO" && (
+                      <tr className="bg-white border-b">
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
+                        >
+                          {val.name}
+                        </th>
+                        <td className="px-6 py-4">{val.ruler || "Peso"}</td>
+                        <td className="px-6 py-4">
+                          {val.status == 1 ? "Ativo" : "Inativo"}
+                        </td>
+                        <td className="px-6 py-4">
+                          <button
+                            className=" bg-gray-300 text-gray-200"
+                            disabled
+                          >
+                            Editar
+                          </button>
+                        </td>
+                      </tr>
+                    )
+                )}
             </tbody>
           </table>
         </div>

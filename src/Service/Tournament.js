@@ -18,10 +18,10 @@ const createTournament = async (name, reward, date, location, federation) => {
       icon: "success",
       confirmButtonText: "Ok",
       willClose: () => {
-        window.location.reload(); // This will refresh the page
+        window.location.pathname = "/profile";
       }
     });
-    window.location.reload();
+
     return response.data;
   } catch (error) {
     // Handle error appropriately
@@ -32,7 +32,7 @@ const createTournament = async (name, reward, date, location, federation) => {
       icon: "error",
       confirmButtonText: "Ok",
       willClose: () => {
-        window.location.reload(); // This will refresh the page
+        window.location.pathname = "/profile";
       }
     });
     throw error;

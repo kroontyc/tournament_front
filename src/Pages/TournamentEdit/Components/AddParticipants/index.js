@@ -11,8 +11,9 @@ const AddParticipants = () => {
   const [ team, setTeam ] = useState("");
   const [ categorie, setCategorie ] = useState("");
   const [ file, setFile ] = useState("");
+  const [ fileName, setFileName ] = useState("Click to upload");
+
   const uploadByFile = async (param) => {
-    console.log("asa", param);
     const id = window.location.pathname.split("/")[3];
     if (!param) {
       const payload = {
@@ -91,12 +92,25 @@ const AddParticipants = () => {
                 />
               </svg>
               <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                <span class="font-semibold">Click to upload</span> or drag and
-                drop
+                <span class="font-semibold">{fileName}</span>
               </p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">
-                SVG, PNG, JPG or GIF (MAX. 800x400px)
-              </p>
+              {fileName != "Click to upload" && (
+                <p
+                  role="button"
+                  class="text-xs text-white dark:text-gray-400 bg-[#93c5fd] p-4"
+                  onClick={() => {
+                    setFile(null);
+                    setFileName(file ? file.name : "Click to upload");
+                  }}
+                >
+                  Remover
+                </p>
+              )}
+              {fileName === "Click to upload" && (
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                  SVG, PNG, JPG or GIF (MAX. 800x400px)
+                </p>
+              )}
             </div>
             <input
               id="dropzone-file"
@@ -105,6 +119,7 @@ const AddParticipants = () => {
               onChange={(event) => {
                 const file = event.target.files[0];
                 setFile(file);
+                setFileName(file ? file.name : "Click to upload");
               }}
             />
           </label>

@@ -21,10 +21,7 @@ const generateKeys = async (payload) => {
       title: "Success!",
       text: "Chaves criadas com sucesso!",
       icon: "success",
-      confirmButtonText: "Ok",
-      willClose: () => {
-        window.location.reload(); // This will refresh the page
-      }
+      confirmButtonText: "Ok"
     });
     return response.data;
   } catch (error) {
@@ -32,10 +29,7 @@ const generateKeys = async (payload) => {
       title: "Error!",
       text: "Ocorreu um erro.",
       icon: "error",
-      confirmButtonText: "Ok",
-      willClose: () => {
-        window.location.reload(); // This will refresh the page
-      }
+      confirmButtonText: "Ok"
     });
     // Handle error appropriately
     console.error("Error creating tournament:", error);
@@ -51,10 +45,7 @@ const insertMatchInArena = async (payload, id) => {
       title: "Success!",
       text: "Evento atualizado com sucesso",
       icon: "success",
-      confirmButtonText: "Ok",
-      willClose: () => {
-        window.location.reload(); // This will refresh the page
-      }
+      confirmButtonText: "Ok"
     });
     return response.data;
   } catch (error) {
@@ -62,10 +53,7 @@ const insertMatchInArena = async (payload, id) => {
       title: "Error!",
       text: "Ocorreu um erro.",
       icon: "error",
-      confirmButtonText: "Ok",
-      willClose: () => {
-        window.location.reload(); // This will refresh the page
-      }
+      confirmButtonText: "Ok"
     });
     // Handle error appropriately
     console.error("Error creating tournament:", error);
