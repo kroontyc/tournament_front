@@ -36,8 +36,7 @@ const EditTournament = () => {
   return (
     <div className="w-full  items-center justify-center  flex flex-col">
       <div className="w-full">
-        {data &&
-        data.data && (
+        {data && data.data && (
           <div className="general-info w-full p-5 banner">
             <h1
               className="title text-white"
@@ -63,9 +62,10 @@ const EditTournament = () => {
         )}
       </div>
       <div className="bg-[#eeeeee] h-[80px] w-full mb-10 flex gap-10 items-center p-[14px]">
-        {options.map((value) => (
+        {options.map((value, key) => (
           <p
-            class="me-2"
+            key={key}
+            className="me-2"
             onClick={() => {
               setTab(value);
             }}
@@ -73,10 +73,12 @@ const EditTournament = () => {
             <a
               href="#"
               aria-current="page"
-              class={`
-                inline-block p-4 ${value === tab
-                  ? "text-white bg-blue-300"
-                  : "  rounded-t-lg active "}
+              className={`
+                inline-block p-4 ${
+                  value === tab
+                    ? "text-white bg-blue-300"
+                    : "  rounded-t-lg active "
+                }
                 `}
             >
               {value}
@@ -84,9 +86,8 @@ const EditTournament = () => {
           </p>
         ))}
       </div>
-      <div className="mt-10 w-full">
-        {data &&
-        data.data && (
+      <div className="mt-2 w-full">
+        {data && data.data && (
           <div className="w-full">
             {tab === "Adicionar participantes" && <AddParticipants />}
             {tab === "Editar participantes" && <EditParticipants />}

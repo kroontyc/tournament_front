@@ -82,11 +82,9 @@ const EditParticipants = () => {
     <div className="w-full items-center flex flex-col justify-center">
       <div
         className={
-          openModal ? (
-            "upper w-full h-full flex flex-col items-center justify-center fixed"
-          ) : (
-            "flex w-10"
-          )
+          openModal
+            ? "upper w-full h-full flex flex-col items-center justify-center fixed"
+            : "flex w-10"
         }
       >
         <Modal
@@ -102,17 +100,17 @@ const EditParticipants = () => {
           <Modal.Header>Registrar participante</Modal.Header>
           <Modal.Body className="p-4">
             <div className="space-y-6 w-full">
-              <div class="flex flex-wrap -mx-3 w-full">
+              <div className="flex flex-wrap -mx-3 w-full">
                 <div className="flex items-baseline w-full">
-                  <div class="w-full px-3 w-full grow">
+                  <div className="w-full px-3 w-full grow">
                     <label
-                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       for="grid-password"
                     >
                       Nome
                     </label>
                     <input
-                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-password"
                       type="text"
                       value={name}
@@ -121,15 +119,15 @@ const EditParticipants = () => {
                       }}
                     />
                   </div>
-                  <div class="w-full px-3 grow flex flex-col">
+                  <div className="w-full px-3 grow flex flex-col">
                     <label
-                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       for="grid-password"
                     >
                       Idade
                     </label>
                     <input
-                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-password"
                       type="text"
                       value={age}
@@ -138,15 +136,15 @@ const EditParticipants = () => {
                       }}
                     />
                   </div>
-                  <div class="w-full px-3 grow flex flex-col">
+                  <div className="w-full px-3 grow flex flex-col">
                     <label
-                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       for="grid-password"
                     >
                       Altura
                     </label>
                     <input
-                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-password"
                       type="text"
                       value={height}
@@ -155,15 +153,15 @@ const EditParticipants = () => {
                       }}
                     />
                   </div>
-                  <div class="w-full px-3 grow flex flex-col">
+                  <div className="w-full px-3 grow flex flex-col">
                     <label
-                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       for="grid-password"
                     >
                       Peso
                     </label>
                     <input
-                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-password"
                       type="text"
                       value={weight}
@@ -174,15 +172,15 @@ const EditParticipants = () => {
                   </div>
                 </div>
                 <div className="flex items-center ">
-                  <div class="w-full px-3 grow flex flex-col">
+                  <div className="w-full px-3 grow flex flex-col">
                     <label
-                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       for="grid-password"
                     >
                       Sexo
                     </label>
                     <input
-                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-password"
                       type="text"
                       value={sex}
@@ -191,15 +189,15 @@ const EditParticipants = () => {
                       }}
                     />
                   </div>
-                  <div class="w-full px-3 grow flex flex-col">
+                  <div className="w-full px-3 grow flex flex-col">
                     <label
-                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       for="grid-password"
                     >
                       Gub
                     </label>
                     <input
-                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-password"
                       type="text"
                       value={gub}
@@ -208,15 +206,15 @@ const EditParticipants = () => {
                       }}
                     />
                   </div>
-                  <div class="w-full px-3 grow flex flex-col">
+                  <div className="w-full px-3 grow flex flex-col">
                     <label
-                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       for="grid-password"
                     >
                       Nome da equipe
                     </label>
                     <input
-                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-password"
                       type="text"
                       value={teamName}
@@ -243,9 +241,8 @@ const EditParticipants = () => {
       <div
         className={openModal ? "opacity-[0.2]" : "w-full h-full glass-effect"}
       >
-        <div class="flex items-center justify-center w-full">
-          {data &&
-          data.data && (
+        <div className="flex items-center justify-center w-full">
+          {data && data.data && (
             <div className="w-full h-full flex flex-col justify-center">
               {data.data.map((value) => (
                 <div

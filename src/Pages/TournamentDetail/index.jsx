@@ -46,8 +46,7 @@ const TournamentDetail = () => {
   return (
     <div className="w-80% m-auto items-center justify-center h-100 flex flex-col">
       <div className="w-full">
-        {data &&
-        data.data && (
+        {data && data.data && (
           <div className="general-info w-full p-5 banner">
             <h1
               className="title text-white"
@@ -73,9 +72,10 @@ const TournamentDetail = () => {
         )}
       </div>
       <div className="bg-[#eeeeee] h-[80px] w-full mb-10 flex gap-10 items-center p-[14px]">
-        {options.map((value) => (
+        {options.map((value, key) => (
           <p
-            class="me-2"
+            key={key}
+            className="me-2"
             onClick={() => {
               setTab(value);
             }}
@@ -83,10 +83,12 @@ const TournamentDetail = () => {
             <a
               href="#"
               aria-current="page"
-              class={`
-                inline-block p-4 ${value === tab
-                  ? "text-white bg-blue-300"
-                  : "  rounded-t-lg active "}
+              className={`
+                inline-block p-4 ${
+                  value === tab
+                    ? "text-white bg-blue-300"
+                    : "  rounded-t-lg active "
+                }
                 `}
             >
               {value}
@@ -107,8 +109,7 @@ const TournamentDetail = () => {
                 <Link to={`/tournament/edit/${id}`}>Atualizar Chaves</Link>
               </button>
             </div>
-            {data &&
-            data.user && (
+            {data && data.user && (
               <div className="mt-[30px] hosted-by">
                 <p>Criado por:</p>
                 <p>{data.user.name}</p>
@@ -119,8 +120,7 @@ const TournamentDetail = () => {
             )}
           </div>
           <div className="flex w-[60%] general-info">
-            {data &&
-            data.data && (
+            {data && data.data && (
               <div className="w-full p-8">
                 <h1 className="title">Informações gerais</h1>
                 <div className="initial">

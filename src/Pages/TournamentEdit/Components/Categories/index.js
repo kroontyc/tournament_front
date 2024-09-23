@@ -55,11 +55,11 @@ const Categories = ({ data }) => {
         <Modal.Header>Registrar categoria</Modal.Header>
         <Modal.Body className="p-4">
           <div className="space-y-6 w-full">
-            <div class="flex flex-wrap -mx-3 w-full">
+            <div className="flex flex-wrap -mx-3 w-full">
               <div className="flex items-baseline w-full">
-                <div class="w-full px-3 w-full grow">
+                <div className="w-full px-3 w-full grow">
                   <label
-                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                     for="grid-password"
                   >
                     Regra
@@ -76,15 +76,15 @@ const Categories = ({ data }) => {
                 </div>
                 {ruler === "peso" && (
                   <div className="w-full flex">
-                    <div class="w-full px-3 grow flex flex-col">
+                    <div className="w-full px-3 grow flex flex-col">
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 whitespace-nowrap"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 whitespace-nowrap"
                         for="grid-password"
                       >
                         Peso Minimo
                       </label>
                       <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-password"
                         type="text"
                         value={min_weight}
@@ -93,15 +93,15 @@ const Categories = ({ data }) => {
                         }}
                       />
                     </div>
-                    <div class="w-full px-3 grow flex flex-col">
+                    <div className="w-full px-3 grow flex flex-col">
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 whitespace-nowrap"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 whitespace-nowrap"
                         for="grid-password"
                       >
                         Peso máximo
                       </label>
                       <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-password"
                         type="text"
                         value={weight}
@@ -115,15 +115,15 @@ const Categories = ({ data }) => {
 
                 {ruler === "altura" && (
                   <div className="w-full flex">
-                    <div class="w-full px-3 grow flex flex-col">
+                    <div className="w-full px-3 grow flex flex-col">
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                         for="grid-password"
                       >
                         Altura
                       </label>
                       <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-password"
                         type="text"
                         value={height}
@@ -134,15 +134,15 @@ const Categories = ({ data }) => {
                     </div>
                   </div>
                 )}
-                <div class="w-full px-3 grow flex flex-col">
+                <div className="w-full px-3 grow flex flex-col">
                   <label
-                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                     for="grid-password"
                   >
                     Nome
                   </label>
                   <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-password"
                     type="text"
                     value={name}
@@ -154,7 +154,7 @@ const Categories = ({ data }) => {
               </div>
               <div className="flex  flex-col ml-4">
                 <label
-                  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                   for="grid-password"
                 >
                   Classe
@@ -193,11 +193,9 @@ const Categories = ({ data }) => {
       {categories && (
         <div
           className={
-            openModal ? (
-              "relative overflow-x-auto w-full opacity-[0.3]"
-            ) : (
-              "relative overflow-x-auto w-full"
-            )
+            openModal
+              ? "relative overflow-x-auto w-full opacity-[0.3]"
+              : "relative overflow-x-auto w-full"
           }
         >
           <table className="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -227,7 +225,11 @@ const Categories = ({ data }) => {
                         >
                           {val.name}
                         </th>
-                        <td className="px-6 py-4">{val.ruler || "Peso"}</td>
+                        <td className="px-6 py-4">
+                          {val.ruler.map((val, index) => (
+                            <p key={index}>{val}</p>
+                          ))}
+                        </td>
                         <td className="px-6 py-4">
                           {val.status == 1 ? "Ativo" : "Inativo"}
                         </td>

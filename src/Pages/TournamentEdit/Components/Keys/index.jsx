@@ -71,7 +71,6 @@ const Keys = ({ owner, idInternal }) => {
     let number = matchesLength * 2;
     const divs = [];
     const range = [];
-    console.log("dale", matches);
     while (number >= 2) {
       number = Math.ceil(number / 2);
 
@@ -105,66 +104,62 @@ const Keys = ({ owner, idInternal }) => {
                               <Fighter data={false} index={index + 1} />
                             )}
                             {isEdit &&
-                            isEdit[0] &&
-                            isEdit[0].name === matches[0].name && (
-                              <div className="flex gap-5 items-center">
+                              isEdit[0] &&
+                              isEdit[0].name === matches[0].name && (
                                 <div className="flex gap-5 items-center">
-                                  <select>
-                                    <option disabled selected>
-                                      W/L
-                                    </option>
-                                    <option value={1}>Winner</option>
-                                    <option>Reset</option>
-                                  </select>
+                                  <div className="flex gap-5 items-center">
+                                    <select>
+                                      <option disabled selected>
+                                        W/L
+                                      </option>
+                                      <option value={1}>Winner</option>
+                                      <option>Reset</option>
+                                    </select>
+                                  </div>
+                                  <input
+                                    type="text"
+                                    placeholder="Score"
+                                    className="w-20 border mr-2 flex items-center justify-center text-center"
+                                  />
                                 </div>
-                                <input
-                                  type="text"
-                                  placeholder="Score"
-                                  className="w-20 border mr-2 flex items-center justify-center text-center"
-                                />
-                              </div>
-                            )}
+                              )}
                           </div>
                           <div className="border  hover-card flex items-center">
                             <Fighter data={false} index={index} />
                             {isEdit &&
-                            isEdit[0] &&
-                            isEdit[0].name === matches[0].name && (
-                              <div className="flex gap-5 items-center">
+                              isEdit[0] &&
+                              isEdit[0].name === matches[0].name && (
                                 <div className="flex gap-5 items-center">
-                                  <select>
-                                    <option disabled selected>
-                                      W/L
-                                    </option>
-                                    <option value={1}>Winner</option>
-                                    <option>Reset</option>
-                                  </select>
+                                  <div className="flex gap-5 items-center">
+                                    <select>
+                                      <option disabled selected>
+                                        W/L
+                                      </option>
+                                      <option value={1}>Winner</option>
+                                      <option>Reset</option>
+                                    </select>
+                                  </div>
+                                  <input
+                                    type="text"
+                                    placeholder="Score"
+                                    className="w-20 border mr-2 flex items-center justify-center text-center"
+                                  />
                                 </div>
-                                <input
-                                  type="text"
-                                  placeholder="Score"
-                                  className="w-20 border mr-2 flex items-center justify-center text-center"
-                                />
-                              </div>
-                            )}
+                              )}
                           </div>
                         </div>
                       </div>
                     ) : (
                       <div
                         className={
-                          val.result && parseInt(val.accStage) == number ? (
-                            "winner"
-                          ) : (
-                            "border flex items-center"
-                          )
+                          val.result && parseInt(val.accStage) == number
+                            ? "winner"
+                            : "border flex items-center"
                         }
                         data-player-result={
-                          val.result && parseInt(val.accStage) == number ? (
-                            val.result
-                          ) : (
-                            ""
-                          )
+                          val.result && parseInt(val.accStage) == number
+                            ? val.result
+                            : ""
                         }
                         onMouseEnter={() => handleMouseEnter(val.result)}
                         onMouseLeave={() => handleMouseLeave(val.result)}
@@ -197,7 +192,6 @@ const Keys = ({ owner, idInternal }) => {
   };
 
   const save = async (match, value, father) => {
-    console.log("esa", father);
     if (value == 1 || value == 2) {
       const payload = {
         match_id: match.id,

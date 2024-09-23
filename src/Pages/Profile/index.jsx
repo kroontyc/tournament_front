@@ -28,9 +28,10 @@ const Profile = () => {
       </h1>
       <div className="flex flex-col w-[80%]">
         <div className="bg-[#eeeeee] h-[80px] w-full  flex gap-10 items-center">
-          {options.map((value) => (
+          {options.map((value, key) => (
             <p
-              class="me-2"
+              key={key}
+              className="me-2"
               onClick={() => {
                 setTab(value);
               }}
@@ -38,10 +39,12 @@ const Profile = () => {
               <a
                 href="#"
                 aria-current="page"
-                class={`
-                inline-block p-4 ${value === tab
-                  ? "text-white bg-blue-300"
-                  : "  rounded-t-lg active "}
+                className={`
+                inline-block p-4 ${
+                  value === tab
+                    ? "text-white bg-blue-300"
+                    : "  rounded-t-lg active "
+                }
                 `}
               >
                 {value}
