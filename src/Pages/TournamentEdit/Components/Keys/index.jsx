@@ -21,17 +21,19 @@ const Keys = ({ owner, idInternal }) => {
   // Modificando o estado inicial para ser um objeto em vez de um array
   const [ data, setData ] = React.useState({});
   const [ openModal, setOpenModal ] = React.useState(false);
+  const [currentValue, setCurrentValue] = React.useState([]);
+  const [isEdit, setIsEdit] = React.useState(null);
+  const [arenas, setArenas] = React.useState([]);
+  const [currentArena, setCurrentArena] = React.useState([]);
+  const [currentMatch, setCurrentMatch] = React.useState([]);
+  const [p1Score, setP1Score] = React.useState("");
+  const [p2Score, setP2Score] = React.useState("");
 
-  const [ isEdit, setIsEdit ] = React.useState(null);
-  const [ arenas, setArenas ] = React.useState([]);
-  const [ currentArena, setCurrentArena ] = React.useState([]);
-  const [ currentMatch, setCurrentMatch ] = React.useState([]);
-  const [ p1Score, setP1Score ] = React.useState("");
-  const [ p2Score, setP2Score ] = React.useState("");
   const getData = async () => {
     const id = window.location.pathname.split("/")[3];
     let response = await byId(idInternal ? idInternal : id);
     if (response && response.data) {
+      console.log("response", response.data);
       // const groupedData = groupByCategory(response.data);
       setData(response.data);
     }
@@ -53,146 +55,14 @@ const Keys = ({ owner, idInternal }) => {
     }
   };
 
-  const handleRadioChange = (match, value, father) => {
+  const handleRadioChange = (match) => {
     setCurrentArena(match);
-    save(match, value, father);
-  };
-
-  const inserMatch = async () => {
-    const payload = {
-      match_id: currentMatch.id,
-      fighter_1: currentMatch.first_fighter,
-      fighter_2: currentMatch.second_fighter
-    };
-    await insertMatchInArena(payload, currentArena.id);
-  };
-
-  const renderDivs = (matchesLength, matches) => {
-    let number = matchesLength * 2;
-    const divs = [];
-    const range = [];
-    while (number >= 2) {
-      number = Math.ceil(number / 2);
-
-      for (let i = 0; i < number; i++) {
-        range.push(i);
-      }
-
-      divs.push(
-        <div key={number} style={{ left: `${number * 5}%` }} className="">
-          {range &&
-            matches.map(
-              (val, index) =>
-                index < number / 2 && (
-                  <div className={index >= 1 ? "mt-[20px]" : ""}>
-                    {number > 1 ? (
-                      <div className="flex items-center gap-5">
-                        <div className="flex flex-col ">
-                          <div
-                            className="border  hover-card flex items-center"
-                            data-player-result={val.result}
-                            onMouseEnter={() => handleMouseEnter(val.result)}
-                            onMouseLeave={() => handleMouseLeave(val.result)}
-                          >
-                            {val.result && parseInt(val.accStage) == number ? (
-                              <WinnerCard
-                                name={val.result}
-                                team={val.winner_team}
-                                index={index + 1}
-                              />
-                            ) : (
-                              <Fighter data={false} index={index + 1} />
-                            )}
-                            {isEdit &&
-                              isEdit[0] &&
-                              isEdit[0].name === matches[0].name && (
-                                <div className="flex gap-5 items-center">
-                                  <div className="flex gap-5 items-center">
-                                    <select>
-                                      <option disabled selected>
-                                        W/L
-                                      </option>
-                                      <option value={1}>Winner</option>
-                                      <option>Reset</option>
-                                    </select>
-                                  </div>
-                                  <input
-                                    type="text"
-                                    placeholder="Score"
-                                    className="w-20 border mr-2 flex items-center justify-center text-center"
-                                  />
-                                </div>
-                              )}
-                          </div>
-                          <div className="border  hover-card flex items-center">
-                            <Fighter data={false} index={index} />
-                            {isEdit &&
-                              isEdit[0] &&
-                              isEdit[0].name === matches[0].name && (
-                                <div className="flex gap-5 items-center">
-                                  <div className="flex gap-5 items-center">
-                                    <select>
-                                      <option disabled selected>
-                                        W/L
-                                      </option>
-                                      <option value={1}>Winner</option>
-                                      <option>Reset</option>
-                                    </select>
-                                  </div>
-                                  <input
-                                    type="text"
-                                    placeholder="Score"
-                                    className="w-20 border mr-2 flex items-center justify-center text-center"
-                                  />
-                                </div>
-                              )}
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div
-                        className={
-                          val.result && parseInt(val.accStage) == number
-                            ? "winner"
-                            : "border flex items-center"
-                        }
-                        data-player-result={
-                          val.result && parseInt(val.accStage) == number
-                            ? val.result
-                            : ""
-                        }
-                        onMouseEnter={() => handleMouseEnter(val.result)}
-                        onMouseLeave={() => handleMouseLeave(val.result)}
-                      >
-                        {val.result && parseInt(val.accStage) == number ? (
-                          <WinnerCard
-                            name={val.result}
-                            team={val.winner_team}
-                            index={index + 1}
-                            notColor={true}
-                          />
-                        ) : (
-                          <Fighter
-                            data={false}
-                            index={index + 1}
-                            notColor={true}
-                          />
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )
-            )}
-        </div>
-      ); // Adiciona um novo elemento 'div' com 'asa' dentro
-      // Divide o número por 2
-    }
-
-    return divs;
+    save(currentMatch, currentValue, currentMatch);
   };
 
   const save = async (match, value, father) => {
     if (value == 1 || value == 2) {
+      let currentStage = father.accStage || 1;
       const payload = {
         match_id: match.id,
         arena_id: null,
@@ -201,11 +71,11 @@ const Keys = ({ owner, idInternal }) => {
         p2: match.second_fighter,
         p1_score: p1Score,
         p2_score: p2Score,
-        acc: father.length
+        acc: (currentStage += 1)
       };
       await createResult(payload);
+      await getData();
     }
-
     //  await createResult(payload);
   };
 
@@ -233,6 +103,81 @@ const Keys = ({ owner, idInternal }) => {
     });
   };
 
+  const renderDivs = (matchesLength, matches) => {
+    let number = matchesLength;
+    const divs = [];
+    while (number >= 2) {
+      divs.push(
+        <div key={number} style={{ left: `${number * 5}%` }} className="">
+          {Array.from({ length: number / 2 }, (_, index) => (
+            <div key={index} className={index >= 1 ? "mt-[20px]" : ""}>
+              {number}
+              <div className="flex items-center gap-5">
+                <div className="flex flex-col ">
+                  <div
+                    className="border hover-card flex items-center"
+                    data-player-result={index}
+                    onMouseEnter={() => handleMouseEnter(index)}
+                    onMouseLeave={() => handleMouseLeave(index)}
+                  >
+                    {isEdit &&
+                    isEdit[0] &&
+                    isEdit[0].name === matches[0].name ? (
+                      <div className="flex gap-5 items-center">
+                        <select>
+                          <option disabled selected>
+                            W/L
+                          </option>
+                          <option value={1}>Winner</option>
+                          <option>Reset</option>
+                        </select>
+                        <input
+                          type="text"
+                          placeholder="Score"
+                          className="w-20 border mr-2 flex items-center justify-center text-center"
+                        />
+                      </div>
+                    ) : (
+                      <Fighter data={false} index={index + 1} />
+                    )}
+                  </div>
+                  <div className="border hover-card flex items-center">
+                    <Fighter data={false} index={index} />
+                    {isEdit &&
+                      isEdit[0] &&
+                      isEdit[0].name === matches[0].name && (
+                        <div className="flex gap-5 items-center">
+                          <select>
+                            <option disabled selected>
+                              W/L
+                            </option>
+                            <option value={1}>Winner</option>
+                            <option>Reset</option>
+                          </select>
+                          <input
+                            type="text"
+                            placeholder="Score"
+                            className="w-20 border mr-2 flex items-center justify-center text-center"
+                          />
+                        </div>
+                      )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ); // Adiciona um novo elemento 'div' com 'asa' dentro
+      // Divide o número por 2
+      number = Math.ceil(number / 2);
+    }
+    if (number < 2) {
+      divs.push(<WinnerCard notColor={false} data={false} index={2} />);
+      console.log("zerei");
+    }
+    return divs;
+  };
+
   React.useEffect(() => {
     getData();
     getArenas();
@@ -254,7 +199,7 @@ const Keys = ({ owner, idInternal }) => {
           </div>
         ) : (
           Object.entries(data).map(
-            ([ category, matches ]) =>
+            ([category, matches]) =>
               !category.includes("vazio") && (
                 <div
                   key={category}
@@ -273,6 +218,7 @@ const Keys = ({ owner, idInternal }) => {
                           onClick={() => {
                             setIsEdit(null);
                             getData();
+                            handleRadioChange();
                           }}
                         >
                           Salvar
@@ -303,12 +249,9 @@ const Keys = ({ owner, idInternal }) => {
                                 <div
                                   data-player-result={match.first_fighter_name}
                                   className={
-                                    match.first_fighter_name ===
-                                    match.result ? (
-                                      "flex items-center justify-between gap-5 border bg-green-200  hover-card"
-                                    ) : (
-                                      "flex items-center justify-between gap-5 border  hover-card"
-                                    )
+                                    match.first_fighter_name === match.result
+                                      ? "flex items-center justify-between gap-5 border bg-green-200  hover-card"
+                                      : "flex items-center justify-between gap-5 border  hover-card"
                                   }
                                 >
                                   <Fighter data={match} />
@@ -323,48 +266,42 @@ const Keys = ({ owner, idInternal }) => {
                                     </div>
                                   )}
                                   {isEdit &&
-                                  isEdit[0] &&
-                                  isEdit[0].name === matches[0].name && (
-                                    <div className="flex gap-5 items-center">
+                                    isEdit[0] &&
+                                    isEdit[0].name === matches[0].name && (
                                       <div className="flex gap-5 items-center">
-                                        <select
-                                          onChange={(e) => {
-                                            handleRadioChange(
-                                              match,
-                                              e.target.value,
-                                              matches
-                                            );
+                                        <div className="flex gap-5 items-center">
+                                          <select
+                                            onChange={(e) => {
+                                              setCurrentValue(e.target.value);
+                                              setCurrentMatch(match);
+                                            }}
+                                          >
+                                            <option disabled selected>
+                                              W/L
+                                            </option>
+                                            <option value={1}>Winner</option>
+                                            <option>Reset</option>
+                                          </select>
+                                        </div>
+                                        <input
+                                          type="text"
+                                          placeholder="Score"
+                                          className="w-20 border mr-2 flex items-center justify-center text-center"
+                                          value={match.p1_score}
+                                          onChange={(event) => {
+                                            setP1Score(event.target.value);
+                                            match.p1_score = event.target.value;
                                           }}
-                                        >
-                                          <option disabled selected>
-                                            W/L
-                                          </option>
-                                          <option value={1}>Winner</option>
-                                          <option>Reset</option>
-                                        </select>
+                                        />
                                       </div>
-                                      <input
-                                        type="text"
-                                        placeholder="Score"
-                                        className="w-20 border mr-2 flex items-center justify-center text-center"
-                                        value={match.p1_score}
-                                        onChange={(event) => {
-                                          setP1Score(event.target.value);
-                                          match.p1_score = event.target.value;
-                                        }}
-                                      />
-                                    </div>
-                                  )}
+                                    )}
                                 </div>
                                 <div
                                   data-player-result={match.second_fighter_name}
                                   className={
-                                    match.second_fighter_name ===
-                                    match.result ? (
-                                      "flex items-center justify-between gap-5 border bg-green-200  hover-card"
-                                    ) : (
-                                      "flex items-center justify-between gap-5 border  hover-card"
-                                    )
+                                    match.second_fighter_name === match.result
+                                      ? "flex items-center justify-between gap-5 border bg-green-200  hover-card"
+                                      : "flex items-center justify-between gap-5 border  hover-card"
                                   }
                                 >
                                   <SecondFighter data={match} />
@@ -379,38 +316,35 @@ const Keys = ({ owner, idInternal }) => {
                                     </div>
                                   )}
                                   {isEdit &&
-                                  isEdit[0] &&
-                                  isEdit[0].name === matches[0].name && (
-                                    <div className="flex gap-5 items-center">
+                                    isEdit[0] &&
+                                    isEdit[0].name === matches[0].name && (
                                       <div className="flex gap-5 items-center">
-                                        <select
-                                          onChange={(e) => {
-                                            handleRadioChange(
-                                              match,
-                                              e.target.value,
-                                              matches
-                                            );
+                                        <div className="flex gap-5 items-center">
+                                          <select
+                                            onChange={(e) => {
+                                              setCurrentValue(e.target.value);
+                                              setCurrentMatch(match);
+                                            }}
+                                          >
+                                            <option disabled selected>
+                                              W/L
+                                            </option>
+                                            <option value={2}>Winner</option>
+                                            <option>Reset</option>
+                                          </select>
+                                        </div>
+                                        <input
+                                          type="text"
+                                          placeholder="Score"
+                                          className="w-20 border mr-2 flex items-center justify-center text-center"
+                                          value={match.p2_score}
+                                          onChange={(event) => {
+                                            setP2Score(event.target.value);
+                                            match.p2_score = event.target.value;
                                           }}
-                                        >
-                                          <option disabled selected>
-                                            W/L
-                                          </option>
-                                          <option value={2}>Winner</option>
-                                          <option>Reset</option>
-                                        </select>
+                                        />
                                       </div>
-                                      <input
-                                        type="text"
-                                        placeholder="Score"
-                                        className="w-20 border mr-2 flex items-center justify-center text-center"
-                                        value={match.p2_score}
-                                        onChange={(event) => {
-                                          setP2Score(event.target.value);
-                                          match.p2_score = event.target.value;
-                                        }}
-                                      />
-                                    </div>
-                                  )}
+                                    )}
                                 </div>
                               </div>
                             </div>
