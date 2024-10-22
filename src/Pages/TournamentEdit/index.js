@@ -6,9 +6,11 @@ import Categories from "./Components/Categories";
 import EditParticipants from "./Components/EditParticipants";
 import Keys from "./Components/Keys";
 import Arenas from "./Components/Arenas";
+import Ranking from "./Components/Ranking";
 const options = [
   "Adicionar participantes",
   "Editar participantes",
+  "Pontuação",
   "Categorias",
   "Chaves",
   "Arenas"
@@ -91,6 +93,7 @@ const EditTournament = () => {
           <div className="w-full">
             {tab === "Adicionar participantes" && <AddParticipants />}
             {tab === "Editar participantes" && <EditParticipants />}
+            {tab === "Pontuação" && <Ranking />}
             {tab === "Chaves" && <Keys owner={data} />}
             {tab === "Categorias" && <Categories data={data} />}
             {tab === "Arenas" && <Arenas data={data} />}
