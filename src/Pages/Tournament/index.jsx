@@ -3,19 +3,26 @@ import "./style.css";
 import Button from "../../Components/Buttons";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { createTournament } from "../../Service/Tournament";
+import TkContext from "../../context/TkdContext";
 const Tournament = () => {
-  const [ name, setName ] = useState("");
-  const [ location, setLocation ] = useState("");
-  const [ federation, setFederation ] = useState("");
-  const [ reward, setReward ] = useState("200");
-  const [ date, setDate ] = useState("");
+  const { user } = React.useContext(TkContext);
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
+  const [federation, setFederation] = useState("");
+  const [reward, setReward] = useState("200");
+  const [date, setDate] = useState("");
   const postCreateTournament = () => {
-    try {
-      createTournament(name, reward, date, location, federation);
-    } catch (e) {
-      console.log("e", e);
+    if (user && user.id) {
+      try {
+        createTournament(name, reward, date, location, federation, user.id);
+      } catch (e) {
+        console.log("e", e);
+      }
+    } else {
+      alert("Realize login antes de tentar cadastrar um novo evento");
     }
   };
+
   return (
     <div className="w-100 p-[14px] items-center justify-center mt-[40px] h-100 flex flex-col">
       <h1 className="title">Criar novo Torneio</h1>

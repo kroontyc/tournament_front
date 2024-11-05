@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../../../../Components/Buttons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import "../style.css";
 const Events = ({ data }) => {
@@ -9,13 +10,16 @@ const Events = ({ data }) => {
   const handleButtonClick = (id) => {
     navigate("/tournament/" + id);
   };
+  const handleButtonClickRegister = () => {
+    navigate("/tournament");
+  };
   const handleEditBtn = (id) => {
     navigate("/tournament/edit/" + id);
   };
   return (
     <div className="w-full h-100">
       {data &&
-        data.length > 0 && (
+        data.length > 0 ? (
           <div className="w-full h-100 flex flex-col items-center bg-white">
             {data.map((value) => (
               <div className="card p-2 w-full border border-1  grow flex justify-between items-center">
@@ -56,7 +60,20 @@ const Events = ({ data }) => {
               </div>
             ))}
           </div>
-        )}
+        )
+      :<div>
+        <p>Sem eventos Cadstrados</p>
+        <div className="w-[30%] m-auto mt-[30px] justify-end flex items-end">
+            <Button
+              text={"Registrar Torneio"}
+              background={"#5bb65b"}
+              color={"#fff"}
+              icon={faPlus}
+              click={handleButtonClickRegister}
+            />
+          </div>
+      </div>
+      }
     </div>
   );
 };

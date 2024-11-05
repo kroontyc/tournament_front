@@ -1,54 +1,174 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Bracket, Seed, SeedItem, SeedTeam } from "react-brackets";
+import { Modal } from "flowbite-react";
 
-const TournamentBracket = ({ group }) => {
+const TournamentBracket = ({ group, setGroups, currentScores }) => {
+
   const { titulo, regra, participants } = group;
+  const STORAGE_KEY_GROUP = `bracketData_${
+    window.location.pathname.split("/")[3]
+  }_${titulo.replace(/\s+/g, "_")}`;
 
-  const rounds = [];
+  const [selectedSeed, setSelectedSeed] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [winners, setWinners] = useState({});
+  const [rounds, setRounds] = useState([]);
+  const [positions, setPositions] = useState({});
 
-  // Verificar se há apenas um participante, caso sim, vence por W.O.
-  if (participants.length === 1) {
-    rounds.push({
-      name: "Vencedor por W.O.",
-      seeds: [
-        {
-          id: 1,
-          teams: [
-            { name: participants[0].name, team: participants[0].team, score: 0 }
-          ],
-          isWO: true // Indica que é W.O.
-        }
-      ]
+  useEffect(() => {
+    
+    const savedRounds = localStorage.getItem(STORAGE_KEY_GROUP);
+    if (savedRounds) {
+      setRounds(JSON.parse(savedRounds));
+      console.log("Chaves carregadas do localStorage para", titulo);
+    } else {
+      generateRounds(participants);
+    }
+  }, [participants]);
+
+  const handleEditWinner = (seedId) => {
+    setSelectedSeed(seedId);
+    setShowModal(true);
+  };
+
+  const handleSelectWinner = (teamIndex) => {
+    const roundIndex = parseInt(selectedSeed.split("-")[0]);
+    const seedIndex = parseInt(selectedSeed.split("-")[1]) - 1;
+    const winner = rounds[roundIndex].seeds[seedIndex].teams[teamIndex];
+
+    // Atualiza o vencedor no estado
+    setWinners((prevWinners) => ({
+      ...prevWinners,
+      [selectedSeed]: teamIndex
+    }));
+
+    // Atualiza imediatamente o rounds com o novo vencedor
+    setRounds((prevRounds) => {
+      const updatedRounds = [...prevRounds];
+      updatedRounds[roundIndex].seeds[seedIndex].teams = [
+        winner,
+        { name: "A decidir" }
+      ];
+      return updatedRounds;
     });
-  } else {
-    // Caso contrário, gerar as rodadas com base no número de participantes
-    const numRounds = Math.ceil(Math.log2(participants.length));
-    let currentParticipants = [...participants];
+
+    updateGroupsWithWinner(roundIndex, seedIndex, winner);
+
+    if (roundIndex === rounds.length - 1) {
+      const secondPlace =
+        rounds[roundIndex].seeds[seedIndex].teams[1 - teamIndex];
+      const thirdPlace =
+        rounds[roundIndex - 1]?.seeds[0]?.teams[
+          winners[`${roundIndex - 1}-1`] === 0 ? 1 : 0
+        ];
+      const fourthPlace =
+        rounds[roundIndex - 1]?.seeds[0]?.teams[
+          winners[`${roundIndex - 1}-1`] === 1 ? 0 : 1
+        ];
+      setPositions({
+        winner,
+        second: secondPlace,
+        third: thirdPlace,
+        fourth: fourthPlace
+      });
+    }
+
+    setShowModal(false);
+  };
+
+  const generateRounds = (currentParticipants) => {
+    const newRounds = [];
+
+    if (currentParticipants.length === 1) {
+      newRounds.push({
+        name: "Vencedor por W.O.",
+        seeds: [
+          {
+            id: "0-1",
+            teams: [{ ...currentParticipants[0] }],
+            isWO: true
+          }
+        ]
+      });
+      setRounds(newRounds);
+      return;
+    }
+
+    const numRounds = Math.ceil(Math.log2(currentParticipants.length));
+    let currentRoundParticipants = [...currentParticipants];
 
     for (let i = 0; i < numRounds; i++) {
+      const isFinalRound = i === numRounds - 1;
       const round = {
-        name: i === 0 ? "Opening" : `Round ${i + 1}`,
+        name: isFinalRound
+          ? "Chave Final"
+          : i === 0
+          ? "Chave Inicial"
+          : `Chave ${i + 1}`,
         seeds: []
       };
 
-      for (let j = 0; j < currentParticipants.length; j += 2) {
+      for (let j = 0; j < currentRoundParticipants.length; j += 2) {
+        const team1 = currentRoundParticipants[j] || { name: "A decidir" };
+        const team2 = currentRoundParticipants[j + 1] || { name: "A decidir" };
+
         round.seeds.push({
-          id: j / 2 + 1,
-          teams: [
-            currentParticipants[j] || { name: "A decidir" },
-            currentParticipants[j + 1] || { name: "A decidir" }
-          ]
+          id: `${i}-${j / 2 + 1}`,
+          teams: [team1, team2],
+          isFinalMatch: isFinalRound && j === 0
         });
       }
 
-      rounds.push(round);
+      newRounds.push(round);
 
-      // Atualizar a lista de participantes para a próxima rodada (vencedores fictícios)
-      currentParticipants = new Array(
-        Math.ceil(currentParticipants.length / 2)
-      ).fill({ name: "A decidir" });
+      currentRoundParticipants = round.seeds.map((seed, index) => {
+        const winnerIndex = winners[`${i}-${index + 1}`];
+        return winnerIndex !== undefined
+          ? seed.teams[winnerIndex]
+          : { name: "A decidir" };
+      });
     }
-  }
+
+    setRounds(newRounds);
+  };
+
+  const updateGroupsWithWinner = (roundIndex, seedIndex, winner) => {
+    setGroups((prevGroups) => {
+      const newGroups = [...prevGroups];
+      const currentGroupIndex = newGroups.findIndex((g) => g.titulo === titulo);
+      if (currentGroupIndex === -1) return prevGroups;
+
+      const currentGroup = { ...newGroups[currentGroupIndex] };
+      const updatedParticipants = [...currentGroup.participants];
+
+      if (updatedParticipants[roundIndex + 1]) {
+        updatedParticipants[roundIndex + 1][Math.floor(seedIndex / 2)] = winner;
+      }
+
+      currentGroup.participants = updatedParticipants;
+      newGroups[currentGroupIndex] = currentGroup;
+
+      return newGroups;
+    });
+
+    generateRounds(participants);
+  };
+
+  const getBackgroundColor = (team) => {
+    if (positions.winner && team.name === positions.winner.name) {
+      return { color: "yellow", position: `Primeiro Lugar + ${currentScores[1].points} Pontos` };
+    }
+    if (positions.second && team.name === positions.second.name) {
+      return { color: "#d4d4d4", position: `Segundo Lugar + ${currentScores[2].points} Pontos` };
+    }
+    if (positions.third && team.name === positions.third.name) {
+      return { color: "#8C7853", position: `Terceiro Lugar + ${currentScores[3].points} Pontos` };
+    }
+    if (positions.fourth && team.name === positions.fourth.name) {
+      return { color: "#4CAF50", position: "Quarto Lugar" };
+    }
+    return { color: "white", position: "" };
+  };
 
   return (
     <div className="group border border-2 p-4 m-4">
@@ -63,39 +183,42 @@ const TournamentBracket = ({ group }) => {
             seeds: round.seeds.map((seed) => ({
               id: seed.id,
               date: "N/A",
-              teams: seed.teams.map((team) => ({
-                name: team ? team.name : "A decidir",
+              teams: seed.teams.map((team, index) => ({
+                name: team.name || "",
                 team: team?.team || "N/A",
-                score: team?.score || 0
+                score: team?.score || 0,
+                isWinner: winners[seed.id] === index,
+                isChampion:
+                  positions.winner && team.name === positions.winner.name
               })),
-              isWO: seed.isWO || false
+              isWO: seed.isWO
             }))
           }))}
           renderSeedComponent={({ seed }) =>
             seed.isWO ? (
               <div className="p-4 bg-yellow-200 rounded-lg w-[800px]">
-                <div className="flex  items-start p-1 gap-2 justify-between">
+                <div className="flex items-start p-1 gap-2 justify-between">
                   <div>
                     <p>{`${seed.teams[0].name}`}</p>
                     <p>{seed.teams[0].team}</p>
                   </div>
-                  <div>Rank: +6</div>
+                  <div>Rank: + {currentScores[0].points} Pontos</div>
                 </div>
               </div>
             ) : (
               <Seed>
-                {seed.isWO ? (
-                  ""
-                ) : (
-                  <SeedItem
-                    style={{
-                      border: "solid 3px #ededed",
-                      backgroundColor: "white",
-                      color: "black"
-                    }}
-                  >
-                    <div className="teams">
-                      {seed.teams.map((team, index) => (
+                <SeedItem
+                  style={{
+                    border: "solid 3px #ededed",
+                    backgroundColor: "white",
+                    color: "black",
+                    minWidth: "250px"
+                  }}
+                >
+                  <div className="teams relative">
+                    {seed.teams.map((team, index) => {
+                      const { color, position } = getBackgroundColor(team);
+                      return (
                         <SeedTeam
                           key={index}
                           className={
@@ -103,17 +226,60 @@ const TournamentBracket = ({ group }) => {
                               ? "border-b-[3px] border-b border-[#ededed]"
                               : ""
                           }
+                          style={{
+                            backgroundColor: color
+                          }}
                         >
-                          <span>{team.name}</span>
+                          <div className="relative flex items-center justify-center w-full p-2">
+                            <span>{`${team.name}`}</span>
+                            <p className="absolute -bottom-1  transform text-black font-bold">{`${
+                              position ? ` - ${position}` : ""
+                            }`}</p>
+                          </div>
+                          <button
+                            className="absolute top-1/2 z-10 transform -right-8 -translate-y-1/2 text-[10px] p-1 bg-blue-500 text-white rounded"
+                            onClick={() => handleEditWinner(seed.id)}
+                          >
+                            Editar
+                          </button>
                         </SeedTeam>
-                      ))}
-                    </div>
-                  </SeedItem>
-                )}
+                      );
+                    })}
+                  </div>
+                </SeedItem>
               </Seed>
             )
           }
         />
+      </div>
+
+      <div className="relative z-10">
+        <Modal
+          show={showModal}
+          onClose={() => setShowModal(false)}
+          size="lg"
+          position="center"
+        >
+          <Modal.Header>Selecione o vencedor</Modal.Header>
+          <Modal.Body>
+            <div className="p-2 flex flex-col gap-2 z-10">
+              {selectedSeed &&
+                rounds
+                  .flatMap((round) => round.seeds)
+                  .find((seed) => seed.id === selectedSeed)
+                  .teams.map((team, index) => (
+                    <div className="flex flex-col gap-1" key={index}>
+                      <button
+                        onClick={() => handleSelectWinner(index)}
+                        className="w-full p-2 border border-2 border-[#ededed] hover:bg-gray-200"
+                      >
+                        {team.name}
+                      </button>
+                    </div>
+                  ))}
+            </div>
+          </Modal.Body>
+        </Modal>
       </div>
     </div>
   );

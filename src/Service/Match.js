@@ -9,8 +9,8 @@ const byId = async (id) => {
   } catch (error) {
     // Handle error appropriately
     console.error("Error creating tournament:", error);
-
-    throw error;
+    return false;
+    //throw error;
   }
 };
 
@@ -40,14 +40,14 @@ const generateKeys = async (payload) => {
 
 const insertMatchInArena = async (payload, id) => {
   try {
-    const response = await apiClient.post("/match/" + id, payload);
+    //const response = await apiClient.post("/match/" + id, payload);
     Swal.fire({
       title: "Success!",
       text: "Evento atualizado com sucesso",
       icon: "success",
       confirmButtonText: "Ok"
     });
-    return response.data;
+    // return response.data;
   } catch (error) {
     Swal.fire({
       title: "Error!",

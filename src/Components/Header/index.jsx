@@ -1,7 +1,9 @@
 import React from "react";
 import "./style.css";
 import Logo from "../../assets/logo.png";
+import TkContext from "../../context/TkdContext";
 const Header = () => {
+  const { user } = React.useContext(TkContext);
   return (
     <header className="header">
       <nav className="navbar">
@@ -19,11 +21,19 @@ const Header = () => {
               About
             </a>
           </li>
-          <li className="nav-item">
-            <a href="/profile" className="nav-link">
-              Perfil
-            </a>
-          </li>
+          {user && user.id ? (
+            <li className="nav-item">
+              <a href="/profile" className="nav-link">
+                Perfil
+              </a>
+            </li>
+          ) : (
+            <li className="nav-item">
+              <a href="/login" className="nav-link">
+                Entar
+              </a>
+            </li>
+          )}
         </ul>
       </nav>
     </header>

@@ -159,7 +159,7 @@ const AddParticipants = () => {
               )}
               {fileName === "Click to upload" && (
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  SVG, PNG, JPG or GIF (MAX. 800x400px)
+                 CSV
                 </p>
               )}
             </div>

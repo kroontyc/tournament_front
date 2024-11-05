@@ -1,22 +1,29 @@
 import React from "react";
 import "./style.css";
-import { byId, addRanking, removeById } from "../../../../Service/Ranking";
-
+import { getScoresById, addRanking, removeById } from "../../../../Service/Scores";
+import apiClient from "../../../../Service/Cliente";
+import Swal from "sweetalert2";
 const Ranking = ({ owner, idInternal }) => {
   const [data, setData] = React.useState([]);
   const [isEditing, setIsEditing] = React.useState(null);
   const [editName, setEditName] = React.useState("");
   const [editPoints, setEditPoints] = React.useState("");
 
-  // Novo estado para controlar o modal de adição
   const [isAdding, setIsAdding] = React.useState(false);
   const [newName, setNewName] = React.useState("");
   const [newPoints, setNewPoints] = React.useState("");
 
   const getData = async () => {
     const id = window.location.pathname.split("/")[3];
-    let response = await byId(idInternal ? idInternal : id);
+    let response = await getScoresById(idInternal ? idInternal : id);
+  
+    // Verifica se a resposta é um objeto e converte para um array se necessário
+    if (!Array.isArray(response)) {
+      response = [response];
+    }
+  
     setData(response);
+    console.log("Dados recebidos:", response);
   };
 
   const handleEdit = (index) => {
@@ -26,17 +33,26 @@ const Ranking = ({ owner, idInternal }) => {
   };
 
   const handleSave = async (index) => {
-    const updatedData = [...data];
-    updatedData[index].name = editName;
-    updatedData[index].points = editPoints;
-    setData(updatedData);
+    const updatedData = { ...data[index], name: editName, points: editPoints };
+    setData((prevData) => {
+      const newData = [...prevData];
+      newData[index] = updatedData;
+      return newData;
+    });
     setIsEditing(null);
-    // Atualizar no servidor
-    // await updateRanking(updatedData[index].id, { name: editName, points: editPoints });
+    
+    try {
+      await apiClient.put(`/scores/${data[index].id}`, updatedData); // Atualizando no servidor
+      Swal.fire("Sucesso", "Pontuação atualizada com sucesso!", "success");
+      await getData(); // Recarrega os dados do servidor para garantir atualização
+    } catch (error) {
+      console.error("Erro ao atualizar pontuação:", error);
+    }
   };
+  
 
   const removeRanking = async (id) => {
-    await removeById(id, window.location.pathname.split("/")[3]);
+    await removeById(id);
     getData();
   };
 
@@ -57,7 +73,7 @@ const Ranking = ({ owner, idInternal }) => {
       <div className="w-full flex items-end justify-end">
         <button
           className="bg-blue-300 text-white font-bold p-2 rounded-[4px]"
-          onClick={() => setIsAdding(true)} // Abre o modal de adição
+          onClick={() => setIsAdding(true)}
         >
           Adicionar nova pontuação
         </button>
@@ -72,65 +88,60 @@ const Ranking = ({ owner, idInternal }) => {
           </tr>
         </thead>
         <tbody>
-          {data &&
-            data.length > 0 &&
-            data.map(
-              (val, key) =>
-                val.name !== "VAZIO" && (
-                  <tr className="bg-white border-b" key={key}>
-                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                      {isEditing === key ? (
-                        <input
-                          type="text"
-                          value={editName}
-                          onChange={(e) => setEditName(e.target.value)}
-                          className="border border-gray-300 p-2 rounded"
-                        />
-                      ) : (
-                        val.name
-                      )}
-                    </th>
-                    <td className="px-6 py-4">
-                      {isEditing === key ? (
-                        <input
-                          type="number"
-                          value={editPoints}
-                          onChange={(e) => setEditPoints(e.target.value)}
-                          className="border border-gray-300 p-2 rounded"
-                        />
-                      ) : (
-                        <p>{val.points}</p>
-                      )}
-                    </td>
-                    <td className="px-6 py-4">{"Ativo"}</td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        {isEditing === key ? (
-                          <button
-                            className="bg-green-500 text-white font-bold p-2 rounded-[4px]"
-                            onClick={() => handleSave(key)}
-                          >
-                            Salvar
-                          </button>
-                        ) : (
-                          <button
-                            className="bg-blue-300 text-gray-100 font-bold p-2 rounded-[4px]"
-                            onClick={() => handleEdit(key)}
-                          >
-                            Editar
-                          </button>
-                        )}
-                        <button
-                          onClick={() => removeRanking(val.id)}
-                          className="bg-red-500 text-white font-bold p-2 rounded-[4px]"
-                        >
-                          Remover
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )
-            )}
+          {data.map((val, key) => (
+            <tr className="bg-white border-b" key={key}>
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                {isEditing === key ? (
+                  <input
+                    type="text"
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                    className="border border-gray-300 p-2 rounded"
+                  />
+                ) : (
+                  val.name
+                )}
+              </th>
+              <td className="px-6 py-4">
+                {isEditing === key ? (
+                  <input
+                    type="number"
+                    value={editPoints}
+                    onChange={(e) => setEditPoints(e.target.value)}
+                    className="border border-gray-300 p-2 rounded"
+                  />
+                ) : (
+                  <p>{val.points}</p>
+                )}
+              </td>
+              <td className="px-6 py-4">{"Ativo"}</td>
+              <td className="px-6 py-4">
+                <div className="flex items-center gap-2">
+                  {isEditing === key ? (
+                    <button
+                      className="bg-green-500 text-white font-bold p-2 rounded-[4px]"
+                      onClick={() => handleSave(key)}
+                    >
+                      Salvar
+                    </button>
+                  ) : (
+                    <button
+                      className="bg-blue-300 text-gray-100 font-bold p-2 rounded-[4px]"
+                      onClick={() => handleEdit(key)}
+                    >
+                      Editar
+                    </button>
+                  )}
+                  <button
+                    onClick={() => removeRanking(val.id)}
+                    className="bg-red-500 text-white font-bold p-2 rounded-[4px]"
+                  >
+                    Remover
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 

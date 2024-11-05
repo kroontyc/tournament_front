@@ -7,6 +7,8 @@ import Tournaments from "../Pages/Tournaments";
 import Profile from "../Pages/Profile";
 import TournamentDetail from "../Pages/TournamentDetail";
 import EditTournament from "../Pages/TournamentEdit";
+import { Register } from "../Pages/Register";
+import { Login } from "../Pages/Login";
 
 function Router() {
   return (
@@ -15,6 +17,8 @@ function Router() {
       <div className="content pt-[70px] h-[100%]">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/tournament" element={<Tournament />} />
           <Route path="/tournaments" element={<Tournaments />} />
           <Route path="/profile" element={<Profile />} />

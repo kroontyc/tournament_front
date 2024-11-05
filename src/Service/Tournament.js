@@ -1,9 +1,9 @@
 import apiClient from "./Cliente";
 import Swal from "sweetalert2";
 
-const createTournament = async (name, reward, date, location, federation) => {
+const createTournament = async (name, reward, date, location, federation, id) => {
   const data = {
-    owner_id: 1,
+    owner_id: id,
     name: name,
     data: date,
     reward: reward,
@@ -52,9 +52,9 @@ const getAllTorunaments = async () => {
   }
 };
 
-const getUserTournament = async () => {
+const getUserTournament = async (id) => {
   try {
-    const response = await apiClient.get("/tournament/owner/1");
+    const response = await apiClient.get(`/tournament/owner/${id}`);
 
     return response.data;
   } catch (error) {
