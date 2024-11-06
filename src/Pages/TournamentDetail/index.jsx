@@ -6,9 +6,11 @@ import Participants from "./Components/Participants";
 import Contact from "./Components/Contact";
 import { Link } from "react-router-dom";
 import Arenas from "./Components/Arenas";
+import TkContext from "../../context/TkdContext";
 const options = [ "Detalhe", "Participantes", "Lutas", "Arenas" ];
 
 const TournamentDetail = () => {
+  const { user } = React.useContext(TkContext)
   const [ data, setData ] = useState([]);
   const [ tab, setTab ] = useState("Detalhe");
   const [ currentDate, setCurrentDate ] = useState("");
@@ -20,6 +22,7 @@ const TournamentDetail = () => {
       setData({ data: req.data[0], user: req.user[0] });
       let date = formatCreatedAt(req.data[0].created_at);
       setCurrentDate(date);
+      console.log('req', req)
     } catch (e) {
       console.log("e", e);
     }
@@ -97,9 +100,11 @@ const TournamentDetail = () => {
         ))}
       </div>
       {tab === "Detalhe" && (
-        <div className="flex gap-10 w-full m-auto">
+        <div className="flex gap-10 w-full m-auto p-4">
           <div className="flex flex-col w-[40%]">
-            <div className="register-container flex items-center flex-col justify-center gap-5">
+            {
+              /**
+               * <div className="register-container flex items-center flex-col justify-center gap-5">
               <button className="btn-def">
                 <Link to={`/tournament/edit/${id}`}>
                   Registrar participantes
@@ -109,8 +114,10 @@ const TournamentDetail = () => {
                 <Link to={`/tournament/edit/${id}`}>Atualizar Chaves</Link>
               </button>
             </div>
+               */
+            }
             {data && data.user && (
-              <div className="mt-[30px] hosted-by">
+              <div className=" hosted-by">
                 <p>Criado por:</p>
                 <p>{data.user.name}</p>
                 <p>{data.user.email}</p>
@@ -142,7 +149,7 @@ const TournamentDetail = () => {
       )}
       <div>{tab === "Participantes" && <Participants data={data.data} />}</div>
       <div className="w-full">
-        {tab === "Lutas" && <Contact data={data.data} />}
+        {tab === "Lutas" && <Contact data={data.data} isView={true}/>}
       </div>
       <div className="w-full">{tab === "Arenas" && <Arenas data={data} />}</div>
     </div>

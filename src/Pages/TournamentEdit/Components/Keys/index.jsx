@@ -5,7 +5,7 @@ import { getAll } from "../../../../Service/Arenas";
 import BracketContainer from "./Components/BracketContainer";
 import { getScoresById } from "../../../../Service/Scores";
 
-const Keys = ({ owner, idInternal }) => {
+const Keys = ({ owner, idInternal, isView }) => {
   const [data, setData] = React.useState([]);
   const [arenas, setArenas] = React.useState([]);
   const [currentScores, setCurrentScores] = useState([]);
@@ -68,7 +68,7 @@ const Keys = ({ owner, idInternal }) => {
       }
       */
     }
-    console.log("asa")
+    console.log("asa");
     setInfetch(false);
   };
 
@@ -119,24 +119,29 @@ const Keys = ({ owner, idInternal }) => {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
-      <button
-        onClick={saveBracketState}
-        className="fixed bottom-10 z-[100] left-1/2 transform -translate-x-1/2 bg-blue-500 p-2 text-white rounded-[4px]"
-      >
-        Salvar Configuração atual
-      </button>
+      {!isView ? (
+        <button
+          onClick={saveBracketState}
+          className="fixed bottom-10 z-[100] left-1/2 transform -translate-x-1/2 bg-blue-500 p-2 text-white rounded-[4px]"
+        >
+          Salvar Configuração atual
+        </button>
+      ) : (
+        ""
+      )}
 
       {!inFetch ? (
         <>
-        {
-            data && data.length ? 
-              <BracketContainer
-                groups={data}
-                setGroups={setData}
-                currentScores={currentScores}
-              />
-              : 'Sem chaves para este evento'
-        }
+          {data && data.length ? (
+            <BracketContainer
+              groups={data}
+              setGroups={setData}
+              currentScores={currentScores}
+              isView={isView}
+            />
+          ) : (
+            "Sem chaves para este evento"
+          )}
         </>
       ) : (
         "Carregando.."

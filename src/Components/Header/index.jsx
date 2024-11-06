@@ -2,6 +2,7 @@ import React from "react";
 import "./style.css";
 import Logo from "../../assets/logo.png";
 import TkContext from "../../context/TkdContext";
+import { LoggedUser } from "./LoggedUser";
 const Header = () => {
   const { user } = React.useContext(TkContext);
   return (
@@ -10,7 +11,7 @@ const Header = () => {
         <a href="/" className="navbar-brand">
           <img src={Logo} alt="Ki Happ" className="logo" />
         </a>
-        <ul className="navbar-nav ul">
+        <ul className="navbar-nav ul flex items-center">
           <li className="nav-item">
             <a href="/tournaments" className="nav-link">
               Tournaments
@@ -23,9 +24,7 @@ const Header = () => {
           </li>
           {user && user.id ? (
             <li className="nav-item">
-              <a href="/profile" className="nav-link">
-                Perfil
-              </a>
+             <LoggedUser />
             </li>
           ) : (
             <li className="nav-item">

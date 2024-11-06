@@ -3,7 +3,7 @@ import { byIdTournamentParticipant } from "../../../../Service/Tournament";
 import { byId } from "../../../../Service/Match";
 import Keys from "../../../TournamentEdit/Components/Keys";
 
-const Contact = ({ data }) => {
+const Contact = ({ data, isView }) => {
   const [ participant, setParticipant ] = useState([]);
   const generateKeysById = async () => {
     const id = window.location.pathname.split("/")[2];
@@ -28,7 +28,7 @@ const Contact = ({ data }) => {
           </div>
           <div className="w-full">
             {data &&
-            data.owner_id && <Keys owner={data} idInternal={data.id} />}
+            data.owner_id && <Keys owner={data} idInternal={data.id} isView={isView}/>}
           </div>
         </div>
       )}

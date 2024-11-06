@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Bracket, Seed, SeedItem, SeedTeam } from "react-brackets";
 import { Modal } from "flowbite-react";
 
-const TournamentBracket = ({ group, setGroups, currentScores }) => {
-
+const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
   const { titulo, regra, participants } = group;
   const STORAGE_KEY_GROUP = `bracketData_${
     window.location.pathname.split("/")[3]
@@ -16,7 +15,6 @@ const TournamentBracket = ({ group, setGroups, currentScores }) => {
   const [positions, setPositions] = useState({});
 
   useEffect(() => {
-    
     const savedRounds = localStorage.getItem(STORAGE_KEY_GROUP);
     if (savedRounds) {
       setRounds(JSON.parse(savedRounds));
@@ -156,13 +154,22 @@ const TournamentBracket = ({ group, setGroups, currentScores }) => {
 
   const getBackgroundColor = (team) => {
     if (positions.winner && team.name === positions.winner.name) {
-      return { color: "yellow", position: `Primeiro Lugar + ${currentScores[1].points} Pontos` };
+      return {
+        color: "yellow",
+        position: `Primeiro Lugar + ${currentScores[1].points} Pontos`
+      };
     }
     if (positions.second && team.name === positions.second.name) {
-      return { color: "#d4d4d4", position: `Segundo Lugar + ${currentScores[2].points} Pontos` };
+      return {
+        color: "#d4d4d4",
+        position: `Segundo Lugar + ${currentScores[2].points} Pontos`
+      };
     }
     if (positions.third && team.name === positions.third.name) {
-      return { color: "#8C7853", position: `Terceiro Lugar + ${currentScores[3].points} Pontos` };
+      return {
+        color: "#8C7853",
+        position: `Terceiro Lugar + ${currentScores[3].points} Pontos`
+      };
     }
     if (positions.fourth && team.name === positions.fourth.name) {
       return { color: "#4CAF50", position: "Quarto Lugar" };
@@ -236,12 +243,16 @@ const TournamentBracket = ({ group, setGroups, currentScores }) => {
                               position ? ` - ${position}` : ""
                             }`}</p>
                           </div>
-                          <button
-                            className="absolute top-1/2 z-10 transform -right-8 -translate-y-1/2 text-[10px] p-1 bg-blue-500 text-white rounded"
-                            onClick={() => handleEditWinner(seed.id)}
-                          >
-                            Editar
-                          </button>
+                          {!isView ? (
+                            <button
+                              className="absolute top-1/2 z-10 transform -right-8 -translate-y-1/2 text-[10px] p-1 bg-blue-500 text-white rounded"
+                              onClick={() => handleEditWinner(seed.id)}
+                            >
+                              Editar
+                            </button>
+                          ) : (
+                            ""
+                          )}
                         </SeedTeam>
                       );
                     })}
