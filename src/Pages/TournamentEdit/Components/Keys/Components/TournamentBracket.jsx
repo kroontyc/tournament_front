@@ -37,7 +37,7 @@ const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
     // Atualiza o vencedor no estado
     setWinners((prevWinners) => ({
       ...prevWinners,
-      [selectedSeed]: teamIndex
+      [selectedSeed]: teamIndex,
     }));
 
     // Atualiza imediatamente o rounds com o novo vencedor
@@ -45,7 +45,7 @@ const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
       const updatedRounds = [...prevRounds];
       updatedRounds[roundIndex].seeds[seedIndex].teams = [
         winner,
-        { name: "A decidir" }
+        { name: "A decidir" },
       ];
       return updatedRounds;
     });
@@ -67,7 +67,7 @@ const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
         winner,
         second: secondPlace,
         third: thirdPlace,
-        fourth: fourthPlace
+        fourth: fourthPlace,
       });
     }
 
@@ -84,9 +84,9 @@ const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
           {
             id: "0-1",
             teams: [{ ...currentParticipants[0] }],
-            isWO: true
-          }
-        ]
+            isWO: true,
+          },
+        ],
       });
       setRounds(newRounds);
       return;
@@ -103,7 +103,7 @@ const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
           : i === 0
           ? "Chave Inicial"
           : `Chave ${i + 1}`,
-        seeds: []
+        seeds: [],
       };
 
       for (let j = 0; j < currentRoundParticipants.length; j += 2) {
@@ -113,7 +113,7 @@ const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
         round.seeds.push({
           id: `${i}-${j / 2 + 1}`,
           teams: [team1, team2],
-          isFinalMatch: isFinalRound && j === 0
+          isFinalMatch: isFinalRound && j === 0,
         });
       }
 
@@ -156,19 +156,19 @@ const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
     if (positions.winner && team.name === positions.winner.name) {
       return {
         color: "yellow",
-        position: `Primeiro Lugar + ${currentScores[1].points} Pontos`
+        position: `Primeiro Lugar + ${currentScores[1].points} Pontos`,
       };
     }
     if (positions.second && team.name === positions.second.name) {
       return {
         color: "#d4d4d4",
-        position: `Segundo Lugar + ${currentScores[2].points} Pontos`
+        position: `Segundo Lugar + ${currentScores[2].points} Pontos`,
       };
     }
     if (positions.third && team.name === positions.third.name) {
       return {
         color: "#8C7853",
-        position: `Terceiro Lugar + ${currentScores[3].points} Pontos`
+        position: `Terceiro Lugar + ${currentScores[3].points} Pontos`,
       };
     }
     if (positions.fourth && team.name === positions.fourth.name) {
@@ -196,10 +196,10 @@ const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
                 score: team?.score || 0,
                 isWinner: winners[seed.id] === index,
                 isChampion:
-                  positions.winner && team.name === positions.winner.name
+                  positions.winner && team.name === positions.winner.name,
               })),
-              isWO: seed.isWO
-            }))
+              isWO: seed.isWO,
+            })),
           }))}
           renderSeedComponent={({ seed }) =>
             seed.isWO ? (
@@ -219,7 +219,7 @@ const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
                     border: "solid 3px #ededed",
                     backgroundColor: "white",
                     color: "black",
-                    minWidth: "250px"
+                    minWidth: "250px",
                   }}
                 >
                   <div className="teams relative">
@@ -234,7 +234,7 @@ const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
                               : ""
                           }
                           style={{
-                            backgroundColor: color
+                            backgroundColor: color,
                           }}
                         >
                           <div className="relative flex items-center justify-center w-full p-2">
@@ -245,7 +245,7 @@ const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
                           </div>
                           {!isView ? (
                             <button
-                              className="absolute top-1/2 z-10 transform -right-8 -translate-y-1/2 text-[10px] p-1 bg-blue-500 text-white rounded"
+                              className="absolute top-1/2  transform -right-8 -translate-y-1/2 text-[10px] p-1 bg-blue-500 text-white rounded"
                               onClick={() => handleEditWinner(seed.id)}
                             >
                               Editar
@@ -266,9 +266,9 @@ const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
 
       <div className="relative z-10">
         <Modal
+          className="w-full flex flex-col items-center"
           show={showModal}
           onClose={() => setShowModal(false)}
-          size="lg"
           position="center"
         >
           <Modal.Header>Selecione o vencedor</Modal.Header>
@@ -280,12 +280,35 @@ const TournamentBracket = ({ group, setGroups, currentScores, isView }) => {
                   .find((seed) => seed.id === selectedSeed)
                   .teams.map((team, index) => (
                     <div className="flex flex-col gap-1" key={index}>
-                      <button
+                      <div className="flex items-center gap-2 justify-between p-2 border border-2 border-[#ededed] hover:bg-gray-200">
+                        <button
+                          onClick={() => handleSelectWinner(index)}
+                          className=" w-full white-none no-wrap"
+                        >
+                          {team.name}
+                        </button>
+                        <div>
+                          <label
+                            for="password"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
+                            Pontuação
+                          </label>
+                          <input
+                            placeholder="Pontos..."
+                            type="number"
+                            id="password"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 w-fit "
+                            required
+                          />
+                        </div>
+                        <button
                         onClick={() => handleSelectWinner(index)}
-                        className="w-full p-2 border border-2 border-[#ededed] hover:bg-gray-200"
+                        className="text-[15px] p-1 bg-blue-500 text-white rounded w-full"
                       >
-                        {team.name}
+                        Definir como vencedor
                       </button>
+                      </div>
                     </div>
                   ))}
             </div>

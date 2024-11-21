@@ -31,8 +31,8 @@ const Keys = ({ owner, idInternal, isView }) => {
           weight: participant.weight,
           categorie: participant.categorie,
           sex: participant.sex,
-          team: participant.team
-        }))
+          team: participant.team,
+        })),
       }));
       console.log("Dados carregados da API", formattedGroups);
 
@@ -68,7 +68,7 @@ const Keys = ({ owner, idInternal, isView }) => {
       }
       */
     }
-    console.log("asa");
+
     setInfetch(false);
   };
 
@@ -119,6 +119,7 @@ const Keys = ({ owner, idInternal, isView }) => {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
+     
       {!isView ? (
         <button
           onClick={saveBracketState}
