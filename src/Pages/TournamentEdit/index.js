@@ -13,7 +13,8 @@ const options = [
   "Pontuação",
   "Categorias",
   "Chaves",
-  "Arenas"
+  "Arenas",
+  "Ranking"
 ];
 const EditTournament = () => {
   const [ data, setData ] = useState([]);
@@ -97,6 +98,7 @@ const EditTournament = () => {
             {tab === "Chaves" && <Keys owner={data} />}
             {tab === "Categorias" && <Categories data={data} />}
             {tab === "Arenas" && <Arenas data={data} />}
+            {tab === "Rank" && ''}
           </div>
         )}
       </div>
