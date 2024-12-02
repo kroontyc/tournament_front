@@ -7,6 +7,7 @@ import EditParticipants from "./Components/EditParticipants";
 import Keys from "./Components/Keys";
 import Arenas from "./Components/Arenas";
 import Ranking from "./Components/Ranking";
+import { TeamRanking } from "./Components/TeamRank";
 const options = [
   "Adicionar participantes",
   "Editar participantes",
@@ -98,7 +99,7 @@ const EditTournament = () => {
             {tab === "Chaves" && <Keys owner={data} />}
             {tab === "Categorias" && <Categories data={data} />}
             {tab === "Arenas" && <Arenas data={data} />}
-            {tab === "Rank" && ''}
+            {tab === "Ranking" && <TeamRanking />}
           </div>
         )}
       </div>
