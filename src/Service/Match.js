@@ -38,16 +38,16 @@ const generateKeys = async (payload) => {
   }
 };
 
-const insertMatchInArena = async (payload, id) => {
+const insertMatchInArena = async (payload) => {
   try {
-    //const response = await apiClient.post("/match/" + id, payload);
+    const response = await apiClient.post("/save/match" , payload);
     Swal.fire({
       title: "Success!",
       text: "Evento atualizado com sucesso",
       icon: "success",
       confirmButtonText: "Ok"
     });
-    // return response.data;
+     return response.data;
   } catch (error) {
     Swal.fire({
       title: "Error!",
@@ -61,5 +61,22 @@ const insertMatchInArena = async (payload, id) => {
     throw error;
   }
 };
+
+export const getRecoveryMatch = async(id) => {
+  //console.log("id", id)
+  try {
+    let payload = {
+      categorie: id
+    }
+    const response = await apiClient.post("/recovery/match/",payload);
+
+    return response.data;
+  } catch (error) {
+    // Handle error appropriately
+    console.error("Error creating tournament:", error);
+    return false;
+    //throw error;
+  }
+}
 
 export { byId, generateKeys, insertMatchInArena };

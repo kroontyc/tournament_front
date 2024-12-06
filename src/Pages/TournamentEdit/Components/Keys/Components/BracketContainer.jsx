@@ -13,7 +13,7 @@ const options = {
   jsPDF: { unit: "in", format: "a4", orientation: "landscape" }, // Formato maior (A3) e paisagem
 };
 
-const BracketContainer = ({ groups, setGroups, currentScores, isView }) => {
+const BracketContainer = ({ groups, setGroups, currentScores, isView, isSave, setDatToSave }) => {
   const contentRef = useRef(null);
   const [showEdit, setShowEdit] = useState(false);
   const convertToPdf = () => {
@@ -45,7 +45,9 @@ const BracketContainer = ({ groups, setGroups, currentScores, isView }) => {
             group={group}
             setGroups={setGroups}
             currentScores={currentScores}
+            isSave={isSave}
             isView={showEdit ? true : isView}
+            setDatToSave={setDatToSave}
           />
         ))}
       </div>

@@ -6,6 +6,7 @@ import { getAll } from "../../../../Service/Categories";
 import { byId } from "../../../../Service/Match";
 import BracketContainer from "../Keys/Components/BracketContainer";
 import { getScoresById } from "../../../../Service/Scores";
+
 const Arenas = ({ data }) => {
   const [edit, setEdit] = useState(""); // Arena sendo editada
   const [openModal, setOpenModal] = useState(false);
@@ -22,20 +23,20 @@ const Arenas = ({ data }) => {
     setSelectedCategory(value); // Atualiza a categoria selecionada
 
     // Filtra os dados do grupo com base no título selecionado
+    console.log("dataMatch", dataMatch)
+    console.log("asa",value)
     const filtered = dataMatch.filter((group) => group.titulo === value);
     setFilteredGroup(filtered); // Atualiza o estado com os dados filtrados
 
-    console.log("Selected Value:", dataMatch);
-    console.log("Filtered Data:", filtered);
+    
   };
-  const getData = async () => {
 
+  const getData = async () => {
     const id = window.location.pathname.split("/")[3];
     let response = await byId(id);
-
-    if (response && response.length) {
+    if (response && response.data && response.data.length) {
       // Formate os dados recebidos
-      const formattedGroups = response.map((category) => ({
+      const formattedGroups = response.data.map((category) => ({
         titulo: category.category,
         regra: category.ruler,
         participants: category.participants.map((participant) => ({
@@ -50,11 +51,7 @@ const Arenas = ({ data }) => {
 
       // Atualize o estado e salve no localStorage
       setDataMatchs(formattedGroups);
-    
-      
     }
-
-
   };
 
   const getDataScores = async () => {
@@ -68,7 +65,6 @@ const Arenas = ({ data }) => {
     setCurrentScores(response);
     console.log("Dados recebidos:", response);
   };
-
 
   const createArena = async () => {
     if (data && data.data.owner_id) {
@@ -96,11 +92,13 @@ const Arenas = ({ data }) => {
     }
   };
 
+
+
   useEffect(() => {
     getArenas();
     getArenaCategories();
-    getData()
-    getDataScores()
+    getData();
+    getDataScores();
   }, []);
 
   return (
@@ -183,7 +181,12 @@ const Arenas = ({ data }) => {
                         <p>Status: {val.status}</p>
                       </div>
                       <div className="w-[20%] p-4">
-                        <p>Categoria: <span className="text-[10px]">{selectedCategory || ''}</span></p>
+                        <p>
+                          Categoria:{" "}
+                          <span className="text-[10px]">
+                            {selectedCategory || ""}
+                          </span>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -196,9 +199,7 @@ const Arenas = ({ data }) => {
                           <select
                             className="border p-2 rounded w-full"
                             onChange={(e) =>
-                              handleSelectChange(
-                                e.target.value
-                              )
+                              handleSelectChange(e.target.value)
                             }
                           >
                             <option value="">Selecione</option>
@@ -216,15 +217,15 @@ const Arenas = ({ data }) => {
                                 {selectedCategory.name}
                               </h2>
                               {filteredGroup && filteredGroup.length ? (
-            <BracketContainer
-              groups={filteredGroup}
-              setGroups={setDataMatchs}
-              currentScores={currentScores}
-              isView={true}
-            />
-          ) : (
-            "Sem chaves para este evento"
-          )}
+                                <BracketContainer
+                                  groups={filteredGroup}
+                                  setGroups={setDataMatchs}
+                                  currentScores={currentScores}
+                                  isView={false}
+                                />
+                              ) : (
+                                "Sem chaves para este evento"
+                              )}
                             </div>
                           ) : (
                             <p>Sem lutadores definidos</p>
